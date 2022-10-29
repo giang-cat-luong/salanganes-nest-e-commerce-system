@@ -5,6 +5,8 @@
  */
 package customer.controller;
 
+import customer.dto.Customer;
+import customer.dto.CustomerDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -20,21 +22,34 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateCustomerController", urlPatterns = {"/UpdateCustomerController"})
 public class UpdateCustomerController extends HttpServlet {
 
- 
+    private static final String SUCCESS = "updateCustomer.jsp";
+    private static final String ERROR = "error.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
-        try (PrintWriter out = response.getWriter()) {
-            /* TODO output your page here. You may use following sample code. */
-            out.println("<!DOCTYPE html>");
-            out.println("<html>");
-            out.println("<head>");
-            out.println("<title>Servlet UpdateCustomerController</title>");            
-            out.println("</head>");
-            out.println("<body>");
-            out.println("<h1>Servlet UpdateCustomerController at " + request.getContextPath() + "</h1>");
-            out.println("</body>");
-            out.println("</html>");
+        String url = ERROR;
+        try {
+            String cusID = request.getParameter("cusID");
+            String cusName = request.getParameter("cusName");
+            String email = request.getParameter("email");
+            String password = request.getParameter("password");
+            String phone = request.getParameter("phone");
+            String avatar = request.getParameter("avatar");
+            String gender = request.getParameter("gender");
+            String loc = request.getParameter("location");
+            Customer cus = new Customer(cusID, cusName, password, email, avatar, phone, loc, gender, loc, 0, 0);
+            if (CustomerDAO.updateCustomer(cus) == true) {
+                request.setAttribute("UPDATE_SUCCESS", "Update successful");
+                request.setAttribute("BACK_INFO", cus);
+                url = SUCCESS;
+            } else {
+                url = ERROR;
+            }
+        } catch (Exception e) {
+            log("Error at UpdateCustomerController: " + e.toString());
+        } finally {
+            request.getRequestDispatcher(url).forward(request, response);
         }
     }
 

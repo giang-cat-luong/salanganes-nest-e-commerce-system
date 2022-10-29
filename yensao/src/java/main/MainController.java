@@ -27,6 +27,9 @@ public class MainController extends HttpServlet {
     private static final String LOGIN = "Login";
     private static final String LOGIN_CONTROLLER = "LoginController";
 
+    private static final String LOGOUT = "Logout";
+    private static final String LOGOUT_CONTROLLER = "LogoutController";
+
     private static final String REGISTER = "Register";
     private static final String REGISTER_CONTROLLER = "RegisterController";
 
@@ -98,6 +101,11 @@ public class MainController extends HttpServlet {
 
     private static final String UN_BAN = "Unban";
     private static final String UNBAN_SELLER_CONTROLLER = "UnBanSellerController";
+    
+    private static final String SHOPPING = "Shopping";
+    private static final String GET_ALL_PRODUCT_CONTROLLER = "GetAllProductController";
+    
+    
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -119,6 +127,9 @@ public class MainController extends HttpServlet {
                         break;
                     case LOGIN:
                         url = LOGIN_CONTROLLER;
+                        break;
+                    case LOGOUT:
+                        url = LOGOUT_CONTROLLER;
                         break;
                     case BAN:
                         url = BANSELLER_CONTROLLER;
@@ -186,6 +197,10 @@ public class MainController extends HttpServlet {
                     case UN_BAN:
                         url = UNBAN_SELLER_CONTROLLER;
                         break;
+                    case SHOPPING:
+                        url = GET_ALL_PRODUCT_CONTROLLER;
+                        break;
+                    
                     default:
                         break;
                 }

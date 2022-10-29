@@ -450,4 +450,34 @@ public class CustomerDAO {
         }
         return sel;
     }
+
+     public static boolean updateCustomer(Customer cus) {
+        String SQL = "UPDATE customer "
+                + "SET cusName = ?, password = ? , email = ?, avatar = ?, phone = ?, gender = ?, loc = ? \n "
+                + "WHERE cusID = ?";
+        try {
+            Connection cn = DBUtils.makeConnection();
+            PreparedStatement ps = cn.prepareStatement(SQL);
+            int i = 1;
+            
+            ps.setString(i++, cus.getName());
+            ps.setString(i++, cus.getPassword());
+            ps.setString(i++, cus.getEmail());
+            ps.setString(i++, cus.getAvatar());
+            ps.setString(i++, cus.getPhone());
+            ps.setString(i++, cus.getGender());
+            ps.setString(i++, cus.getLocation());
+            ps.setString(i++, cus.getId());
+            
+            boolean flag = ps.executeUpdate() > 0;
+            
+            if (flag) {
+                return true;
+            }
+        } catch (Exception e) {
+            System.out.println("Querry Error!!");
+        }
+        return false;
+
+    }
 }

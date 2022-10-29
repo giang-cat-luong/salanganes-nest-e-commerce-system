@@ -99,7 +99,7 @@
                                     </div>
                                 </div>
                                 <div class="w-100"></div>
-                                
+
                                 <div class="w-100"></div>
                                 <div class="col-md-6">
                                     <div class="form-group">
@@ -114,7 +114,7 @@
                                     </div>
                                 </div>
                                 <div class="w-100"></div>
-                              
+
                             </div>
                         </form><!-- END -->
                     </div>
@@ -154,15 +154,7 @@
                                     </div>
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <div class="radio">
-                                                <label><input type="radio" name="optradio" class="mr-2"> Momo</label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="radio">
-                                                <label><input type="radio" name="optradio" class="mr-2"> Paypal</label>
+                                            <div class="radio" id="paypal-button">                                             
                                             </div>
                                         </div>
                                     </div>
@@ -173,7 +165,11 @@
                                             </div>
                                         </div>
                                     </div>
-                                    <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+
+                                    <div >
+                                        <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
+                                    </div>
+
                                 </div>
                             </div>
                         </div>
@@ -296,6 +292,112 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
         <script src="js/google-map.js"></script>
         <script src="js/main.js"></script>
+        <!-- Replace "test" with your own sandbox Business account app client ID -->
+        <script src="https://www.paypal.com/sdk/js?client-id=test&currency=USD"></script>
+        <!-- Set up a container element for the button -->
 
+        <script src="https://www.paypalobjects.com/api/checkout.js"></script>
+        <script>
+                                paypal.Button.render({
+                                    // Configure environment
+                                    env: 'sandbox',
+                                    client: {
+                                        sandbox: 'AVLAAoy6DuzTIh6JnQx7DrqQM-F7e9L_P9-Ydb8TWpxqanWa_sP-DxIc5cUmxXxjM8sT8sQo0oKe87no',
+                                        production: 'demo_production_client_id'
+                                    },
+                                    // Customize button (optional)
+                                    locale: 'en_US',
+                                    style: {
+                                        size: 'small',
+                                        color: 'gold',
+                                        shape: 'pill',
+                                    },
+
+                                    // Enable Pay Now checkout flow (optional)
+                                    commit: true,
+
+                                    // Set up a payment
+                                    payment: function (data, actions) {
+                                        return actions.payment.create({
+                                            transactions: [{
+                                                    amount: {
+                                                        total: '200.0',
+                                                        currency: 'USD'
+                                                    }
+                                                }]
+                                        });
+                                    },
+                                    // Execute the payment
+                                    onAuthorize: function (data, actions) {
+                                        return actions.payment.execute().then(function () {
+                                            // Show a confirmation message to the buyer
+                                            window.alert('Thank you for your purchase!');
+                                        });
+                                    }
+                                }, '#paypal-button');
+
+        </script>
+       
+        <script>
+            // Set up a payment
+            payment: function (data, actions) {
+                return actions.payment.create({
+                    transactions: [{
+                            amount: {
+                                total: '30.11',
+                                currency: 'USD',
+                                details: {
+                                    subtotal: '30.00',
+                                    tax: '0.07',
+                                    shipping: '0.03',
+                                    handling_fee: '1.00',
+                                    shipping_discount: '-1.00',
+                                    insurance: '0.01'
+                                }
+                            },
+                            description: 'The payment transaction description.',
+                            custom: '90048630024435',
+                            //invoice_number: '12345', Insert a unique invoice number
+                            payment_options: {
+                                allowed_payment_method: 'INSTANT_FUNDING_SOURCE'
+                            },
+                            soft_descriptor: 'ECHI5786786',
+                            item_list: {
+                                items: [
+                                    {
+                                        name: 'hat',
+                                        description: 'Brown hat.',
+                                        quantity: '5',
+                                        price: '3',
+                                        tax: '0.01',
+                                        sku: '1',
+                                        currency: 'USD'
+                                    },
+                                    {
+                                        name: 'handbag',
+                                        description: 'Black handbag.',
+                                        quantity: '1',
+                                        price: '15',
+                                        tax: '0.02',
+                                        sku: 'product34',
+                                        currency: 'USD'
+                                    }],
+                                shipping_address: {
+                                    recipient_name: 'Brian Robinson',
+                                    line1: '4th Floor',
+                                    line2: 'Unit #34',
+                                    city: 'San Jose',
+                                    country_code: 'US',
+                                    postal_code: '95131',
+                                    phone: '011862212345678',
+                                    state: 'CA'
+                                }
+                            }
+                        }],
+                    note_to_payer: 'Contact us for any questions on your order.'
+                });
+            }
+            ,
+        </script>
     </body>
 </html>

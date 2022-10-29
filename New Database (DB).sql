@@ -1,7 +1,7 @@
 go
---drop database YenSao
+drop database YenSao
 -- lenh tao database
---create database YenSao
+create database YenSao
 go
 use YenSao
 go
@@ -66,6 +66,8 @@ voucherID      nvarchar(10)       not null primary key,
 name           nvarchar(100)      not null,
 codeID         nvarchar(50)       not null foreign key (codeID) references codeStore(codeID),
 sellerID       varchar(20)        not null foreign key (sellerID) references seller(sellerID) ON DELETE CASCADE,
+priceAffect    float              not null,
+--- Affect when price greater than priceAffect---
 )
 go
 create table category (
@@ -117,6 +119,7 @@ commentID     int identity(1,1)  not null primary key,
 cusID         varchar(20)        not null foreign key (cusID) references customer(cusID),
 productID     varchar(20)        not null foreign key (productID) references product(productID) ON DELETE CASCADE,
 detail        nvarchar(1000)     null,
+img           nvarchar(MAX)      null,
 rate          int                null,
 );
 go
@@ -257,11 +260,18 @@ INSERT reportProduct (cusID, productID, dateReport, description, img) VALUES (N'
 INSERT reportProduct (cusID, productID, dateReport, description, img) VALUES (N'US004', N'YS2', N'2022-10-6', N'Tại sao trong yến lại có..... YẾN ???', N'https://yensaosaigon.com/wp-content/uploads/2018/11/B%E1%BA%ADt-m%C3%AD-b%C3%AD-m%E1%BA%ADt-v%E1%BB%81-h%E1%BB%93ng-y%E1%BA%BFn-v%C3%A0-huy%E1%BA%BFt-y%E1%BA%BFn-2-768x1024.png')
 INSERT reportProduct (cusID, productID, dateReport, description, img) VALUES (N'US005', N'YN3', N'2022-10-6', N'MU vô địch, wibu văn hóa, datvila j5k mãi đỉnh, đáy xã hội muôn năm', N'https://yensaosaigon.com/wp-content/uploads/2018/11/B%E1%BA%ADt-m%C3%AD-b%C3%AD-m%E1%BA%ADt-v%E1%BB%81-h%E1%BB%93ng-y%E1%BA%BFn-v%C3%A0-huy%E1%BA%BFt-y%E1%BA%BFn-2-768x1024.png')
 
-INSERT comment ( cusID, productID, detail, rate) VALUES (N'US001', N'YS1', N'dark bruh lmao', N'5')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US001', N'YS1', N'dark bruh lmao', N'https://vuayen.vn/wp-content/uploads/2018/03/Y%E1%BA%BFn-huy%E1%BA%BFt-gi%C3%BAp-ph%C3%B2ng-tr%C3%A1nh-b%E1%BB%87nh-ung-th%C6%B0-hi%E1%BB%87u-qu%E1%BA%A3.jpg', N'5')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US001', N'YN2', N'dark bruh lmao p2', N'https://www.yensaodongduong.com/uploads/2020/08/yensaodongduong.com_Huong-dan-cach-chung-yen-don-gian-ma-bo-duong-cach-chung-to-yen-5-1558881424-width600height600.jpg' ,N'2')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US002', N'YN2', N'This product is like the *** why you all still selling this', N'https://cdn.tgdd.vn/Files/2019/03/08/1153555/nuoc-yen-sao-la-gi-cong-dung-cua-nuoc-yen-sao-voi-suc-khoe-202112291116077826.jpg', N'1')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US002', N'YS1', N'I will buy it 1000 times if i have money', N'https://cdn.tgdd.vn/Files/2019/03/08/1153555/nuoc-yen-sao-la-gi-cong-dung-cua-nuoc-yen-sao-voi-suc-khoe-202112291116077826.jpg', N'3')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US003', N'YTC', N'Great product with the high quality ever i try but it so expensive', N'https://didulichaz.com/wp-content/uploads/an-to-yen-dung-cach.jpg', N'4')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US003', N'HY1', N'I very like it but i do not want to rate it high =))', N'https://didulichaz.com/wp-content/uploads/an-to-yen-dung-cach.jpg', N'2')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US004', N'HY1', N'Not good somuch but in this price it the great product you can find', N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUct1Afqx1VW1p6NNDzqGdMVaidiSBloyPTe_M4S_nd3cqHI-Komzn2j7JYN-giT6EA1I&usqp=CAU' ,N'3')
+INSERT comment ( cusID, productID, detail, img, rate) VALUES (N'US004', N'YTC', N'Dead is like the wind always by my side kill me you can try hahahahah', N'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSUct1Afqx1VW1p6NNDzqGdMVaidiSBloyPTe_M4S_nd3cqHI-Komzn2j7JYN-giT6EA1I&usqp=CAU' ,N'5')
 
 --codeID: 4 char num of voucher + 3-9 char name affect + 3-5 char target + for + vse or vsy ---
 --KeyCode: 1 char name affect + 3-5 char type affect + sy or se ---
-INSERT codeStore(codeID, keyCode, description) VALUES (N'cd01rd10ktoitforvse', N'R	10KSE', N'Reduce 10k for items have price over 120k')
+INSERT codeStore(codeID, keyCode, description) VALUES (N'cd01rd10ktoitforvse', N'R10KSE', N'Reduce 10k for items have price over 120k')
 INSERT codeStore (codeID, keyCode, description) VALUES (N'cd02rd50pcsptforvsy', N'R50PSY', N'Reduce 50% of shipping tax')
 INSERT codeStore (codeID, keyCode, description) VALUES (N'cd03rd10pctoitforvse', N'R10PSE', N'Reduce 10% total of all items')
 INSERT codeStore (codeID, keyCode, description) VALUES (N'cd04fr100sptforsvy' , N'F100PSY', N'Free 100% of ship tax')
@@ -269,14 +279,20 @@ INSERT codeStore (codeID, keyCode, description) VALUES (N'cd04fr100sptforsvy' , 
 INSERT voucherSystem(voucherID, name, codeID) VALUES (N'VSY01', N'Free 100% shipping', N'cd04fr100sptforsvy')
 INSERT voucherSystem(voucherID, name, codeID) VALUES (N'VSY02', N'Reduce 50% shipping', N'cd02rd50pcsptforvsy')
 
-INSERT voucherSeller(voucherID, name, codeID, sellerID) VALUES (N'VSE01', N'Reduce 10k for all items over 120k', N'cd01rd10ktoitforvse', N'SE001')
-INSERT voucherSeller(voucherID, name, codeID, sellerID) VALUES (N'VSE02', N'Reduce 10% for all items', N'cd03rd10pctoitforvse', N'SE001')
+INSERT voucherSeller(voucherID, name, codeID, sellerID, priceAffect) VALUES (N'VSE01', N'Reduce 10k for all items over 120k', N'cd01rd10ktoitforvse', N'SE001', N'120.000')
+INSERT voucherSeller(voucherID, name, codeID, sellerID, priceAffect) VALUES (N'VSE02', N'Reduce 10% for all items', N'cd03rd10pctoitforvse', N'SE001', N'0')
 
 INSERT orders( cusID, cusName, cusPhone, loc, ordDate, voucherID) VALUES (N'US001', N'GigaChad', N'0123456789', N'Q9 D2 district', N'2022-10-6', N'VSY01')
+INSERT orders( cusID, cusName, cusPhone, loc, ordDate, voucherID) VALUES (N'US002', N'Rosé', N'0999345899', N'Seoul South Koreant', N'2022-10-6', N'VSY02')
 
 INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity, voucherID) VALUES ('', N'1',N'SE001', N'YS1', N'Yen Sao Nha Lam',N'https://thuongyen.com/wp-content/uploads/2019/10/yen-sao-ky-gi-5.jpg', N'10', N'VSE01')
 INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'1',N'SE001', N'HY2', N'Huyet Yen Mau Do',N'https://vuayen.vn/wp-content/uploads/2018/03/Y%E1%BA%BFn-huy%E1%BA%BFt-gi%C3%BAp-ph%C3%B2ng-tr%C3%A1nh-b%E1%BB%87nh-ung-th%C6%B0-hi%E1%BB%87u-qu%E1%BA%A3.jpg', N'5')
 INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'1',N'SE001', N'YS1', N'Yen Sao Nha Lam',N'https://thuongyen.com/wp-content/uploads/2019/10/yen-sao-ky-gi-5.jpg', N'9')
 INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity, voucherID) VALUES ('', N'1',N'SE001', N'HY4', N'Hong Yen Mau Do',N'https://bizweb.dktcdn.net/100/230/772/articles/hong-yen-la-gi.jpg?v=1588213526903', N'69', N'VSE02')
 INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'1',N'SE001', N'HY2', N'Huyet Yen Mau Do',N'https://vuayen.vn/wp-content/uploads/2018/03/Y%E1%BA%BFn-huy%E1%BA%BFt-gi%C3%BAp-ph%C3%B2ng-tr%C3%A1nh-b%E1%BB%87nh-ung-th%C6%B0-hi%E1%BB%87u-qu%E1%BA%A3.jpg', N'12')
-
+INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity, voucherID) VALUES ('', N'2',N'SE001', N'YS1', N'Yen Sao Nha Lam',N'https://thuongyen.com/wp-content/uploads/2019/10/yen-sao-ky-gi-5.jpg', N'10', N'VSE01')
+INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'2',N'SE001', N'HY2', N'Huyet Yen Mau Do',N'https://vuayen.vn/wp-content/uploads/2018/03/Y%E1%BA%BFn-huy%E1%BA%BFt-gi%C3%BAp-ph%C3%B2ng-tr%C3%A1nh-b%E1%BB%87nh-ung-th%C6%B0-hi%E1%BB%87u-qu%E1%BA%A3.jpg', N'5')
+INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'2',N'SE001', N'YS1', N'Yen Sao Nha Lam',N'https://thuongyen.com/wp-content/uploads/2019/10/yen-sao-ky-gi-5.jpg', N'9')
+INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity, voucherID) VALUES ('', N'2',N'SE001', N'HY4', N'Hong Yen Mau Do',N'https://bizweb.dktcdn.net/100/230/772/articles/hong-yen-la-gi.jpg?v=1588213526903', N'69', N'VSE02')
+INSERT orderDetail (orderDetailID, orderID,sellerID, productID, productName, img, quantity) VALUES ('', N'2',N'SE001', N'HY2', N'Huyet Yen Mau Do',N'https://vuayen.vn/wp-content/uploads/2018/03/Y%E1%BA%BFn-huy%E1%BA%BFt-gi%C3%BAp-ph%C3%B2ng-tr%C3%A1nh-b%E1%BB%87nh-ung-th%C6%B0-hi%E1%BB%87u-qu%E1%BA%A3.jpg', N'12')
+      

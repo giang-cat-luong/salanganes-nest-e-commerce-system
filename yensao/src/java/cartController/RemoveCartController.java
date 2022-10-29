@@ -1,12 +1,10 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package main;
+package cartController;
 
-import customer.dto.Customer;
-import customer.dto.CustomerDAO;
+import cart.Cart;
 import java.io.IOException;
 import java.io.PrintWriter;
 import javax.servlet.ServletException;
@@ -15,58 +13,39 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
-import seller.dto.Seller;
 
 /**
  *
  * @author lequa
  */
-@WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
-public class LoginController extends HttpServlet {
+@WebServlet(name = "RemoveCartController", urlPatterns = {"/RemoveCartController"})
+public class RemoveCartController extends HttpServlet {
 
-    private final String ERROR = "error.jsp";
-    private final String SUCCESSUS = "customerPage.jsp";
-    private final String SUCCESSSE = "sellerPage.jsp";
+    private static final String ERROR = "error.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String name = request.getParameter("name");
-            String password = request.getParameter("password");
-            CustomerDAO cdao = new CustomerDAO();
-            Customer cus = cdao.checkLoginUS(name, password);
-            Seller sell = cdao.checkLoginSE(name, password);
+            String productID = request.getParameter("productID");
             HttpSession session = request.getSession();
-            if (cus != null) {
-                if (cus.getRole().equalsIgnoreCase("ERROR")) {
-                    request.setAttribute("ERROR_ROLE", "Welcome Join In First Time!");
-                } else if (!cus.getRole().equalsIgnoreCase("US")) {
-                    request.setAttribute("ERROR_ROLE", "Soory Your Role Is Not Valid!");
-                } else {
-                    session.setAttribute("CUSTOMER_LOGIN", cus);
-                    url = SUCCESSUS;
+            Cart cart = (Cart) session.getAttribute("CART");
+            if (cart != null) {
+                cart.remove(productID);
+                if (cart.getCart().isEmpty()) {
+                    cart = null;
                 }
-            } else if (sell != null) {
-                if (!sell.getRole().equalsIgnoreCase("SE")) {
-                    request.setAttribute("ERROR_ROLE", "Soory Your Role Is Not Valid!");
-                } else {
-                    session.setAttribute("SELLER_LOGIN", sell);
-                    url = SUCCESSSE;
-                }
-            } else {
-                request.setAttribute("ERROR_LOGIN", "Incorrect Name Or Password!");
+                session.setAttribute("CART", cart);
             }
-
         } catch (Exception e) {
-            log("Error at LoginController: " + e.toString());
+            log("Error at RemoveCartController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
 
-// <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
+    // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
      *

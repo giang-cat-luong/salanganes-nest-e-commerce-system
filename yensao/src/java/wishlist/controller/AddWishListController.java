@@ -1,45 +1,41 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package product.controller;
+package wishlist.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import product.dto.Product;
-import product.dto.ProductDAO;
+import others.OtherDAO;
 
 /**
  *
  * @author lequa
  */
-@WebServlet(name = "GetAllProductController", urlPatterns = {"/GetAllProductController"})
-public class GetAllProductController extends HttpServlet {
-   private static final String ERROR = "error.jsp";
-   private static final String SUCCESS = "shopping.jsp";
+@WebServlet(name = "AddWishListController", urlPatterns = {"/AddWishListController"})
+public class AddWishListController extends HttpServlet {
+    private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "cusSelling.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            ArrayList<Product> list = ProductDAO.getAllProductSelling();
-            HttpSession session = request.getSession();
-            if (list != null) {
-                session.setAttribute("PRODUCT_SELLING_LIST", list);
-                url = SUCCESS;
-            } else {
-                request.setAttribute("PRODUCT_SELLING_LIST", "There is no selling product");
+           String productID = request.getParameter("productID");
+            int quantity = Integer.parseInt(request.getParameter("quantity"));
+            String cusID = request.getParameter("cusID");
+            if(quantity == 0){
+                quantity = 1;
             }
+            boolean check = OtherDAO.addWishlist(productID, cusID, quantity);
+            if(check) url = SUCCESS;
         } catch (Exception e) {
-            e.printStackTrace();
+            log("Error at AddWishListController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

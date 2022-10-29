@@ -9,6 +9,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 import utils.DBUtils;
@@ -275,5 +276,34 @@ public class ProductDAO {
         }
 
         return flag;
+    }
+
+    public static ArrayList<Product> getAllProductSelling() throws Exception {
+        ArrayList<Product> list = new ArrayList<>();
+        Connection cn = DBUtils.getConnection();
+        if (cn != null) {
+            String sql = "SELECT productID, cateID, sellerID, productName, cateName, quantity, cover, price, description, sumSold, status FROM product WHERE status = 3";
+            Statement st = cn.createStatement();
+            ResultSet rs = st.executeQuery(sql);
+            if (rs != null) {
+                while (rs.next()) {
+                    String productID = rs.getString("productID");
+                    String cateID = rs.getString("cateID");
+                    String sellerID = rs.getString("sellerID");
+                    String productName = rs.getString("productName");
+                    String cateName = rs.getString("cateName");
+                    int quantity = rs.getInt("quantity");
+                    String cover = rs.getString("cover");
+                    float price = rs.getFloat("price");
+                    String description = rs.getString("description");
+                    int sumSold = rs.getInt("sumSold");
+                    int status = rs.getInt("status");
+                    Product p = new Product(productID, cateID, sellerID, productName, cateName, quantity, cover, price, description, sumSold, status);
+                    list.add(p);
+                }
+            }
+            cn.close();
+        }
+        return list;
     }
 }

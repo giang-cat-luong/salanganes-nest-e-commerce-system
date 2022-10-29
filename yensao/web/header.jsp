@@ -7,7 +7,7 @@
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
-     <head>
+    <head>
         <title>SALANGANES' NESTS</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -77,16 +77,14 @@
                 <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
                     <span class="oi oi-menu"></span> Menu
                 </button>
-
                 <div class="collapse navbar-collapse" id="ftco-nav">
                     <ul class="navbar-nav ml-auto">
                         <li class="nav-item active"><a href="homePage.jsp" class="nav-link">Home</a></li>
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                <a class="dropdown-item" href="shopping.jsp">Shop</a>
+                                <a class="dropdown-item" href="MainController?action=Shopping">Shop</a>
                                 <a class="dropdown-item" href="wishlist.jsp">Wishlist</a>
-                                
                                 <a class="dropdown-item" href="cart.jsp">Cart</a>
                                 <a class="dropdown-item" href="checkout.jsp">Checkout</a>
                             </div>
@@ -94,7 +92,18 @@
                         <li class="nav-item"><a href="MainController?action=Blog" class="nav-link">Blog</a></li>
                         <li class="nav-item"><a href="contact.jsp" class="nav-link">Contact</a></li>
                         <li class="nav-item cta cta-colored"><a href="cart.jsp" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-                        <li class="nav-item "><a href="login.jsp" class="nav-link"><i class="fa-regular fa-user">Login</i></a></li>
+                        <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
+                        <li class="nav-item"><a href="login.jsp" class="nav-link">Login</a></li>
+                        </c:if>   
+                        <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${sessionScope.CUSTOMER_LOGIN.name}</a>
+                                <div class="dropdown-menu" aria-labelledby="dropdown04">
+                                    <a class="dropdown-item" href="customerProfile.jsp">Profile</a>
+                                    <a class="dropdown-item" href="MainController?action=Logout">Logout</a>
+                                </div>
+                            </li>
+                        </c:if>  
                     </ul>
                 </div>
             </div>

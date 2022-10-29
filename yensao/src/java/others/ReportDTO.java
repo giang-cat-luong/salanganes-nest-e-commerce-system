@@ -5,16 +5,18 @@
 package others;
 
 import java.sql.Date;
+import java.sql.Timestamp;
 
 /**
  *
  * @author lequa
  */
 public class ReportDTO {
+
     private int reportID;
     private String cusID;
     private String productID;
-    private Date  dateReport;
+    private Timestamp dateReport;
     private String description;
     private String img;
     private int status;
@@ -22,7 +24,7 @@ public class ReportDTO {
     public ReportDTO() {
     }
 
-    public ReportDTO(int reportID, String cusID, String productID, Date dateReport, String description, String img, int status) {
+    public ReportDTO(int reportID, String cusID, String productID, Timestamp dateReport, String description, String img, int status) {
         this.reportID = reportID;
         this.cusID = cusID;
         this.productID = productID;
@@ -56,11 +58,11 @@ public class ReportDTO {
         this.productID = productID;
     }
 
-    public Date getDateReport() {
+    public Timestamp getDateReport() {
         return dateReport;
     }
 
-    public void setDateReport(Date dateReport) {
+    public void setDateReport(Timestamp dateReport) {
         this.dateReport = dateReport;
     }
 
@@ -87,6 +89,5 @@ public class ReportDTO {
     public void setStatus(int status) {
         this.status = status;
     }
-    
-    
+
 }

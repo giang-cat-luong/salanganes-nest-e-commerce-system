@@ -1,45 +1,41 @@
 /*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
  */
-package product.controller;
+package wishlist.controller;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-import product.dto.Product;
-import product.dto.ProductDAO;
+import others.OtherDAO;
 
 /**
  *
  * @author lequa
  */
-@WebServlet(name = "GetAllProductController", urlPatterns = {"/GetAllProductController"})
-public class GetAllProductController extends HttpServlet {
-   private static final String ERROR = "error.jsp";
-   private static final String SUCCESS = "shopping.jsp";
+@WebServlet(name = "RemoveProductWishListController", urlPatterns = {"/RemoveProductWishListController"})
+public class RemoveProductWishListController extends HttpServlet {
+
+    private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "wishlist.jsp";
+
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            ArrayList<Product> list = ProductDAO.getAllProductSelling();
-            HttpSession session = request.getSession();
-            if (list != null) {
-                session.setAttribute("PRODUCT_SELLING_LIST", list);
+            int wishID = Integer.parseInt(request.getParameter("wishID"));
+            boolean removeWish = OtherDAO.removeWishList(wishID);
+            if (removeWish) {
+                request.setAttribute("REMOVE_SUCCESS", "Remove wishlist successful.");
                 url = SUCCESS;
-            } else {
-                request.setAttribute("PRODUCT_SELLING_LIST", "There is no selling product");
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            log("Error at RemoveProductWishListController: " + e.toString());
         } finally {
             request.getRequestDispatcher(url).forward(request, response);
         }

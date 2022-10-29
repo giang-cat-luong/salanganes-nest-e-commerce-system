@@ -102,7 +102,7 @@ public class ManagerDAO {
             ArrayList<ReportDTO> list = new ArrayList<>();
             while (rs.next()) {
                 ReportDTO rep = new ReportDTO(rs.getInt("reportID"), rs.getString("cusID"),
-                        rs.getString("productID"), rs.getDate("dateReport"),
+                        rs.getString("productID"), rs.getTimestamp("dateReport"),
                         rs.getString("description"),
                         rs.getString("img"),
                         rs.getInt("status"));
