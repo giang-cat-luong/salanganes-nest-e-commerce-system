@@ -20,6 +20,84 @@ import utils.DBUtils;
  */
 public class OtherDAO {
 
+    public static boolean updateQuantityProductWishList(String productID) throws Exception {
+        boolean check = false;
+        int quantity = 0;
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        String SQL = "SELECT quantity FROM wishList WHERE productID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, productID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    quantity = rs.getInt("quantity");
+                }
+
+                SQL = "UPDATE wishList SET quantity = ? WHERE productID = ?";
+                ptm = conn.prepareStatement(SQL);
+                ptm.setInt(1, quantity + 1);
+                ptm.setString(2, productID);
+                if (ptm.executeUpdate() > 0) {
+                    check = true;
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public static boolean checkRequest(String cusID) throws Exception {
+        boolean check = false;
+        String requestID = "";
+        String SQL = "SELECT requestID FROM request WHERE cusID = ?";
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet res = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pre = con.prepareStatement(SQL);
+                pre.setString(1, cusID);
+                res = pre.executeQuery();
+                if (res != null) {
+                    while (res.next()) {
+                        requestID = res.getString("requestID");
+                    }
+                    check = true;
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (res != null) {
+                res.close();
+            }
+
+        }
+        return check;
+    }
+
     public static ArrayList<RequestDTO> getRequests() throws Exception {
         ArrayList<RequestDTO> list = new ArrayList<>();
         Connection cn = DBUtils.makeConnection();
@@ -114,9 +192,9 @@ public class OtherDAO {
         return sumRate;
     }
 
-    public static Seller getSellerByProductID(String productID) throws Exception {
+    public static Seller getSellerByProductID(String sellerID) throws Exception {
         Seller sel = new Seller();
-        String SQL = "SELECT sellerID, sellerName, avatar, loc FROM seller WHERE productID = ?";
+        String SQL = "SELECT  sellerName, email, avatar, phone, loc FROM seller WHERE sellerID = ?";
         Connection con = null;
         PreparedStatement pre = null;
         ResultSet res = null;
@@ -124,16 +202,17 @@ public class OtherDAO {
             con = DBUtils.makeConnection();
             if (con != null) {
                 pre = con.prepareStatement(SQL);
-                pre.setString(1, productID);
+                pre.setString(1, sellerID);
                 res = pre.executeQuery();
                 if (res != null) {
                     while (res.next()) {
-                        String sellerID = res.getString("sellerID");
                         String sellerName = res.getString("sellerName");
+                        String email = res.getString("email");
                         String avatar = res.getString("avatar");
+                        String phone = res.getString("phone");
                         String loc = res.getString("loc");
-                        sel = new Seller(sellerID, sellerName, "", "",
-                                avatar, "", "", "SE", loc, 0, 0, 0);
+                        sel = new Seller(sellerID, sellerName, "", email,
+                                avatar, phone, "", "SE", loc, 0, 0);
                     }
                 }
             }
@@ -154,8 +233,8 @@ public class OtherDAO {
         return sel;
     }
 
-    public static ArrayList<VoucherSeller> getVoucherList(String productID, String sellerID) throws Exception {
-        ArrayList<VoucherSeller> vou = new ArrayList<>();
+    public static ArrayList<Voucher> getVoucherList(String productID, String sellerID) throws Exception {
+        ArrayList<Voucher> vou = new ArrayList<>();
         float price = 0;
         String SQL = "SELECT price FROM product WHERE productID = ?";
         Connection con = null;
@@ -173,18 +252,18 @@ public class OtherDAO {
                     }
                 }
 
-                SQL = "SELECT voucherID, name, codeID, priceAffect FROM voucherID WHERE sellerID = ?";
+                SQL = "SELECT voucherID, name, codeID, priceAffect FROM voucherSeller WHERE sellerID = ?";
                 pre = con.prepareStatement(SQL);
                 pre.setString(1, sellerID);
                 res = pre.executeQuery();
                 if (res != null) {
                     while (res.next()) {
-                        String voucherID = res.getString("voucherID");
+                        int voucherID = res.getInt("voucherID");
                         String name = res.getString("name");
                         String codeID = res.getString("codeID");
                         float priceAffect = res.getFloat("priceAffect");
                         if (price >= priceAffect) {
-                            VoucherSeller vous = new VoucherSeller(voucherID, name, codeID, "", priceAffect);
+                            Voucher vous = new Voucher(voucherID, name, codeID, "", 0);
                             vou.add(vous);
                         }
                     }
@@ -226,18 +305,21 @@ public class OtherDAO {
                         String img = res.getString("img");
                         int rate = res.getInt("rate");
 
-                        SQL = "SELECT cover FROM customer WHERE cusID = ?";
+                        SQL = "SELECT cusName, avatar FROM customer WHERE cusID = ?";
                         pre = con.prepareStatement(SQL);
                         pre.setString(1, cusID);
-                        res = pre.executeQuery();
-                        if (res != null) {
-                            String cover = res.getString("cover");
-                            CommentDTO cm = new CommentDTO(cover, cusID, productID, detail, img, rate);
+                        ResultSet res2 = null;
+                        res2 = pre.executeQuery();
+                        if (res2.next()) {
+                            String cusName = res2.getString("cusName");
+                            String cover = res2.getString("avatar");
+                            CommentDTO cm = new CommentDTO(productID, cusName, cover, cusID, detail, img, rate);
                             cmt.add(cm);
                         }
                     }
                 }
             }
+        } catch (Exception e) {
         } finally {
             if (con != null) {
                 con.close();
@@ -262,9 +344,7 @@ public class OtherDAO {
         try {
             cn = DBUtils.makeConnection();
             if (cn != null) {
-                String SQL = "INSERT INTO request(cusID, detail) "
-                        + "VALUE (?, ?) "
-                        + "WHERE status = 1";
+                String SQL = "INSERT INTO request(cusID, detail) VALUES (?, ?)";
                 ps = cn.prepareStatement(SQL);
                 ps.setString(1, request.getCusId());
                 ps.setString(2, request.getDetail());
@@ -337,27 +417,25 @@ public class OtherDAO {
         }
         return flag;
     }
-    
-     public static boolean addWishlist(String productID, String cusID, int quantity) throws Exception{
+
+    public static boolean addWishlist(String productID, String cusID, int quantity) throws Exception {
         Connection cn = DBUtils.getConnection();
         boolean flag = false;
-        if(cn!=null){
-            String sql = "SELECT sellerID, cateID, productName, cover, description, price"
-                    + "FROM product"
-                    + "WHERE productID LIKE ?";
+        if (cn != null) {
+            String sql = "SELECT sellerID, cateID, productName, cover, description, price FROM product WHERE productID = ?";
             PreparedStatement ptm = cn.prepareStatement(sql);
             ptm.setString(1, productID);
             ResultSet rs = ptm.executeQuery();
-            if(rs != null){
+            while (rs.next()) {
                 String sellerID = rs.getString("sellerID");
                 String cateID = rs.getString("cateID");
                 String productName = rs.getString("productName");
                 String cover = rs.getString("cover");
                 String description = rs.getString("description");
                 float price = rs.getFloat("price");
-    
+
                 sql = "insert into wishList(cusID, productID, cateID, sellerID, productName, quantity, cover, price, description)"
-                    + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
+                        + "values(?, ?, ?, ?, ?, ?, ?, ?, ?)";
                 ptm = cn.prepareStatement(sql);
                 ptm.setString(1, cusID);
                 ptm.setString(2, productID);
@@ -367,17 +445,155 @@ public class OtherDAO {
                 ptm.setInt(6, quantity);
                 ptm.setString(7, cover);
                 ptm.setFloat(8, price);
-                 ptm.setString(9, description);
+                ptm.setString(9, description);
                 int table = ptm.executeUpdate();
-                if(table > 0){
+                if (table > 0) {
                     flag = true;
-                }
-                else {
+                } else {
                     flag = false;
                 }
             }
             cn.close();
         }
         return flag;
+    }
+
+    public static ArrayList<WishList> getWishList() throws Exception {
+        ArrayList<WishList> list = new ArrayList<>();
+        Connection cn = DBUtils.makeConnection();
+        if (cn != null) {
+            String sql = "select * from wishList";
+            Statement st = cn.createStatement();
+            ResultSet table = st.executeQuery(sql);
+            if (table != null) {
+                while (table.next()) {
+                    int wishID = table.getInt("wishID");
+                    String cusID = table.getString("cusID");
+                    String productID = table.getString("productID");
+                    String cateID = table.getString("cateID");
+                    String sellerID = table.getString("sellerID");
+                    String productName = table.getString("productName");
+                    int quantity = table.getInt("quantity");
+                    String cover = table.getString("cover");
+                    float price = table.getFloat("price");
+                    String description = table.getString("description");
+                    WishList wl = new WishList(wishID, cusID, productID, cateID, sellerID,
+                            productName, quantity, cover, price, description);
+                    list.add(wl);
+                }
+            }
+            cn.close();
+        }
+        return list;
+    }
+
+    public static int getTotalSellProduct(String productID) throws Exception {
+        int totalSell = 0;
+        String SQL = "SELECT COUNT (commentID) AS totalSell FROM comment WHERE productID = ?";
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet res = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pre = con.prepareStatement(SQL);
+                pre.setString(1, productID);
+                res = pre.executeQuery();
+                while (res.next()) {
+                    totalSell = res.getInt("totalSell");
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (res != null) {
+                res.close();
+            }
+
+        }
+        return totalSell;
+    }
+
+    public static ArrayList<Culmulative> getCumulative(String cusID) throws Exception {
+        ArrayList<Culmulative> list = new ArrayList<>();
+        String SQL = "SELECT * FROM saveCumulative WHERE cusID = ?";
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet res = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pre = con.prepareStatement(SQL);
+                pre.setString(1, cusID);
+                res = pre.executeQuery();
+                while (res.next()) {
+                    int saveID = res.getInt("saveID");
+                    String infor = res.getString("infor");
+                    Timestamp time = res.getTimestamp("time");
+                    Culmulative cu = new Culmulative(saveID, cusID, infor, time);
+                    list.add(cu);
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (res != null) {
+                res.close();
+            }
+
+        }
+        return list;
+    }
+
+    public static String getKeyCode(int voucherID) throws Exception {
+        String keyCode = "";
+        String SQL = "SELECT codeID FROM voucher WHERE voucherID = ?";
+        Connection con = null;
+        PreparedStatement pre = null;
+        ResultSet res = null;
+        try {
+            con = DBUtils.makeConnection();
+            if (con != null) {
+                pre = con.prepareStatement(SQL);
+                pre.setInt(1, voucherID);
+                res = pre.executeQuery();
+                while (res.next()) {
+                    String codeID = res.getString("codeID");
+                    SQL = "SELECT keyCode FROM codeStore WHERE codeID = ?";
+                    pre = con.prepareStatement(SQL);
+                    pre.setString(1, codeID);
+                    res = pre.executeQuery();
+                    if (res.next()) {
+                        keyCode = res.getString("keyCode");
+                    }
+                }
+            }
+        } finally {
+            if (con != null) {
+                con.close();
+            }
+
+            if (pre != null) {
+                pre.close();
+            }
+
+            if (res != null) {
+                res.close();
+            }
+
+        }
+        return keyCode;
     }
 }

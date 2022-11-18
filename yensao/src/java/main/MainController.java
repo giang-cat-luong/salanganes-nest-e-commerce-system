@@ -101,11 +101,63 @@ public class MainController extends HttpServlet {
 
     private static final String UN_BAN = "Unban";
     private static final String UNBAN_SELLER_CONTROLLER = "UnBanSellerController";
-    
+
+    private static final String UPDATE_CUSTOMER = "SaveChanges";
+    private static final String UPDATE_CUSTOMER_CONTROLLER = "UpdateCustomerController";
+
+    private static final String CHANGE_PASSWORD = "UpdatePassword";
+    private static final String CHANGE_PASSWORD_CONTROLLER = "ChangePasswordController";
+
+    private static final String GET_WISH_LIST = "WishList";
+    private static final String GET_WISH_LIST_CONTROLLER = "GetWishListController";
+
+    private static final String ADD_WISH_LIST = "AddWishList";
+    private static final String ADD_WISH_LIST_CONTROLLER = "AddWishListController";
+
+    private static final String REMOVE_WISH_LIST = "RemoveWishList";
+    private static final String REMOVE_WISH_LIST_CONTROLLER = "RemoveProductWishListController";
+
+    private static final String SINGLE_PRODUCT = "SingleProduct";
+    private static final String GET_RELATIVE = "GetRelativeSelling";
+
+    private static final String CUMULATIVE = "Cumulative";
+    private static final String GET_CUMULATIVE = "GetCumulativeController";
+
+    private static final String GETPROBYID = "GetProById";
+    private static final String GET_PRODUCT_BY_ID_CONTROLLER = "GetProductById";
+
     private static final String SHOPPING = "Shopping";
     private static final String GET_ALL_PRODUCT_CONTROLLER = "GetAllProductController";
-    
-    
+
+    private static final String ADD_REQUEST = "AddRequest";
+    private static final String ADD_REQUEST_CONTROLLER = "AddRequestController";
+
+    private static final String ADD_TO_CART = "AddToCart";
+    private static final String ADD_CART_CONTROLLER = "AddCartController";
+
+    private static final String VIEW_CART = "ViewCart";
+    private static final String GET_CART_CONTROLLER = "GetCartController";
+
+    private static final String REMOVE_CART = "RemoveCart";
+    private static final String REMOVE_CART_CONTROLLER = "RemoveCartController";
+
+    private static final String CHECK_OUT = "CheckOut";
+    private static final String CHECK_OUT_CONTROLLER = "CheckOutController";
+
+    private static final String STEP_ONE_CHECK_OUT = "Step1CheckOut";
+    private static final String STEP_ONE_CHECK_OUT_CONTROLLER = "StepOneCheckOutController";
+
+    private static final String VIEW_PURCHASE = "ViewPurchase";
+    private static final String SHOW_HISTORY_CHECK_OUT_CONTROLLER = "ShowHistoryCheckOutController";
+
+    private static final String COMMENT_PRODUCT = "CommentProduct";
+    private static final String COMMENT_PRODUCT_CONTROLLER = "CommentProductController";
+
+    private static final String CANCEL_ORDER = "CancelOrder";
+    private static final String CANCEL_CHECK_OUT_CONTROLLER = "CancelCheckOutController";
+
+    private static final String REPORT_PRODUCT = "ReportProduct";
+    private static final String ADD_REPORT_CONTROLLER = "AddReportController";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -197,10 +249,63 @@ public class MainController extends HttpServlet {
                     case UN_BAN:
                         url = UNBAN_SELLER_CONTROLLER;
                         break;
+                    case CHANGE_PASSWORD:
+                        url = CHANGE_PASSWORD_CONTROLLER;
+                        break;
+                    case UPDATE_CUSTOMER:
+                        url = UPDATE_CUSTOMER_CONTROLLER;
+                        break;
+                    case GET_WISH_LIST:
+                        url = GET_WISH_LIST_CONTROLLER;
+                        break;
+                    case ADD_WISH_LIST:
+                        url = ADD_WISH_LIST_CONTROLLER;
+                        break;
+                    case REMOVE_WISH_LIST:
+                        url = REMOVE_WISH_LIST_CONTROLLER;
+                        break;
+                    case SINGLE_PRODUCT:
+                        url = GET_RELATIVE;
+                        break;
+                    case CUMULATIVE:
+                        url = GET_CUMULATIVE;
+                        break;
+                    case GETPROBYID:
+                        url = GET_PRODUCT_BY_ID_CONTROLLER;
+                        break;
                     case SHOPPING:
                         url = GET_ALL_PRODUCT_CONTROLLER;
                         break;
-                    
+                    case ADD_REQUEST:
+                        url = ADD_REQUEST_CONTROLLER;
+                        break;
+                    case ADD_TO_CART:
+                        url = ADD_CART_CONTROLLER;
+                        break;
+                    case VIEW_CART:
+                        url = GET_CART_CONTROLLER;
+                        break;
+                    case REMOVE_CART:
+                        url = REMOVE_CART_CONTROLLER;
+                        break;
+                    case CHECK_OUT:
+                        url = CHECK_OUT_CONTROLLER;
+                        break;
+                    case VIEW_PURCHASE:
+                        url = SHOW_HISTORY_CHECK_OUT_CONTROLLER;
+                        break;
+                    case COMMENT_PRODUCT:
+                        url = COMMENT_PRODUCT_CONTROLLER;
+                        break;
+                    case CANCEL_ORDER:
+                        url = CANCEL_CHECK_OUT_CONTROLLER;
+                        break;
+                    case STEP_ONE_CHECK_OUT:
+                        url = STEP_ONE_CHECK_OUT_CONTROLLER;
+                        break;
+                    case REPORT_PRODUCT:
+                        url = REMOVE_PRODUCT_CONTROLLER;
+                        break;
                     default:
                         break;
                 }

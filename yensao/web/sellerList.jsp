@@ -351,8 +351,8 @@
                                                                     <c:param name="sellerID" value="${banseller.id}"></c:param>
                                                                 </c:url>
                                                                 <c:url var="banLink" value="MainController">
-                                                                    <c:param name="action" value="Ban"></c:param>
-                                                                    <c:param name="sellerID" value="${seller.id}"></c:param>
+                                                                    <c:param name="action" value="Unban"></c:param>
+                                                                    <c:param name="sellerID" value="${banseller.id}"></c:param>
                                                                 </c:url>                                                   
                                                                 <a href="${deleteLink}"><button type="button" class="btn btn-danger">Delete</button></a>
                                                                 <a href="${banLink}"><button type="button" class="btn btn-warning">Unban</button></a>

@@ -22,6 +22,7 @@ import javax.servlet.http.HttpSession;
 public class RemoveCartController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "MainController?action=ViewCart";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -37,6 +38,7 @@ public class RemoveCartController extends HttpServlet {
                     cart = null;
                 }
                 session.setAttribute("CART", cart);
+                url = SUCCESS;
             }
         } catch (Exception e) {
             log("Error at RemoveCartController: " + e.toString());

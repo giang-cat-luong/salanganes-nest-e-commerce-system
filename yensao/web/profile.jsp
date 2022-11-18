@@ -63,33 +63,25 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Shop <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="tables.html">Shop rating</a></li>
-                                            <li><a href="tables.html">Shop profile</a></li>
-                                            <li><a href="tables.html">Shop reports</a></li>
-
+                                            <li><a href="profile.jsp">Shop profile</a></li>
+                                            <li><a href="sellerPage.jsp">Shop rating</a></li>
                                         </ul>
                                     </li>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> Order <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="showOrderDetail.jsp">All orders</a></li>
-                                            <li><a href="form_advanced.html">Cancellation</a></li>
-                                            <li><a href="form_validation.html">Return/Refund</a></li>                                           
+                                            <li><a href="MainController?action=ShowOrders&sellerID=${sessionScope.SELLER_LOGIN.id}">All orders</a></li>
+                                            <li><a href="form_advanced.html">Cancellation</a></li>                                           
+                                            <li><a href="form_advanced.html">Completed</a></li>                                           
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-suitcase"></i> Product <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="sellSelling.jsp">My products</a></li>
-                                            <li><a href="newProduct.jsp">Add new product</a></li>
-                                            <li><a href="newProduct.jsp">Reviewing products</a></li>
-                                            <li><a href="typography.html">Product violations</a></li>                                           
+                                            <li><a href="MainController?action=SellingPage&sellerID=${sessionScope.SELLER_LOGIN.id}">My products</a></li>
+                                            <li><a href="newProduct.jsp">Add new product</a></li>                                           
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-cc-paypal"></i> Shipment <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="index.html">My shipment</a></li>
-                                            <li><a href="index2.html">Shipment setting</a></li>
-                                        </ul>
+
                                 </ul>
                             </div>
 
@@ -112,14 +104,14 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"  href="profile.jsp"> Profile</a>
-                                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a class="dropdown-item"  href="MainController?action=Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="nav-item dropdown open">
                                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <span class="badge bg-green"></span>
                                     </a>
                                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                         <li class="nav-item">
@@ -216,7 +208,7 @@
                                         <ul class="nav navbar-right panel_toolbox">
                                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                             </li>
-                                           
+
                                         </ul>
                                         <div class="clearfix"></div>
                                     </div>
@@ -232,222 +224,132 @@
                                             <h3>${sessionScope.SELLER_LOGIN.name}</h3>
 
                                             <ul class="list-unstyled user_data">
-                                                <li><i class="fa fa user-profile-icon"></i> ${sessionScope.SELLER_LOGIN.email}
+                                                <li><i class="fa fa-envelope"></i> ${sessionScope.SELLER_LOGIN.email}
                                                 </li>
 
                                                 <li>
-                                                    <i class="fa fa  user-profile-icon"></i> Software Engineer
+                                                    <i class="fa fa-phone"></i></i> ${sessionScope.SELLER_LOGIN.phone}
                                                 </li>
 
                                                 <li class="m-top-xs">
-                                                    <i class="fa fa-external-link user-profile-icon"></i>
-                                                    <a href="https://www.facebook.com/profile.php?id=100064013721337" target="_blank">www.facebook.com</a>
+                                                    <i class="fa fa-location-arrow"></i></i> ${sessionScope.SELLER_LOGIN.location}
                                                 </li>
                                             </ul>
 
                                             <a href="updateSeller.jsp" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Edit Profile</a>
                                             <br />
 
-                                            <!-- start skills -->
-                                            <h4>Skills</h4>
-                                            <ul class="list-unstyled user_data">
-                                                <li>
-                                                    <p>Web Applications</p>
-                                                    <div class="progress progress_sm">
-                                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p>Website Design</p>
-                                                    <div class="progress progress_sm">
-                                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="70"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p>Automation & Testing</p>
-                                                    <div class="progress progress_sm">
-                                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="30"></div>
-                                                    </div>
-                                                </li>
-                                                <li>
-                                                    <p>UI / UX</p>
-                                                    <div class="progress progress_sm">
-                                                        <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="50"></div>
-                                                    </div>
-                                                </li>
-                                            </ul>
-                                            <!-- end of skills -->
+
 
                                         </div>
-                                        <div class="col-md-9 col-sm-9 ">
+                                        <div class="right_col" role="main">
+                                            <!-- top tiles -->
+                                            <div class="row" style="display: inline-block;" >
+                                                <div class="tile_count">
+                                                    <div class="col-md-3 col-sm-4  tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-user"></i> Total Products</span>
+                                                        <div class="count">  23  </div>
 
-                                            <div class="profile_title">
-                                                <div class="col-md-6">
-                                                    <h2>User Activity Report</h2>
-                                                </div>
-                                                <div class="col-md-6">
-                                                    <div id="reportrange" class="pull-right" style="margin-top: 5px; background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #E6E9ED">
-                                                        <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
-                                                        <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-4  tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-clock-o"></i> Total Sold</span>
+                                                        <div class="count">5</div>
+
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-4  tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-user"></i> Total Profit</span>
+                                                        <div class="count green">2,315<i class="fa fa-dollar"></i></div>
+
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-4  tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-user"></i> Average Rate</span>
+                                                        <div class="count red">2,5 <i class="fa fa-star"></i></div>
+
+                                                    </div>
+                                                    <div class="col-md-3 col-sm-4  tile_stats_count">
+                                                        <span class="count_top"><i class="fa fa-user"></i> Total Comments</span>
+                                                        <div class="count">12</div>
+
                                                     </div>
                                                 </div>
                                             </div>
-                                            <!-- start of user-activity-graph -->
-                                            <div id="graph_bar" style="width:100%; height:280px;"></div>
-                                            <!-- end of user-activity-graph -->
+                                            <!-- /top tiles -->
 
-                                            <div class="" role="tabpanel" data-example-id="togglable-tabs">
-                                                <ul id="myTab" class="nav nav-tabs bar_tabs" role="tablist">
-                                                    <li role="presentation" class="active"><a href="#tab_content1" id="home-tab" role="tab" data-toggle="tab" aria-expanded="true">Recent Activity</a>
-                                                    </li>
-                                                    <li role="presentation" class=""><a href="#tab_content2" role="tab" id="profile-tab" data-toggle="tab" aria-expanded="false">Projects Worked on</a>
-                                                    </li>
-                                                    <li role="presentation" class=""><a href="#tab_content3" role="tab" id="profile-tab2" data-toggle="tab" aria-expanded="false">Profile</a>
-                                                    </li>
-                                                </ul>
-                                                <div id="myTabContent" class="tab-content">
-                                                    <div role="tabpanel" class="tab-pane active " id="tab_content1" aria-labelledby="home-tab">
+                                            <div class="row">
+                                                <div class="col-md-12 col-sm-12 ">
+                                                    <div class="dashboard_graph">
 
-                                                        <!-- start recent activity -->
-                                                        <ul class="messages">
-                                                            <li>
-                                                                <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                                                <div class="message_date">
-                                                                    <h3 class="date text-info">24</h3>
-                                                                    <p class="month">May</p>
+                                                        <div class="row x_title">
+                                                            <div class="col-md-6">
+                                                                <h3>Selling Activities </h3>
+                                                            </div>
+                                                            <div class="col-md-6">
+                                                                <div id="reportrange" class="pull-right" style="background: #fff; cursor: pointer; padding: 5px 10px; border: 1px solid #ccc">
+                                                                    <i class="glyphicon glyphicon-calendar fa fa-calendar"></i>
+                                                                    <span>December 30, 2014 - January 28, 2015</span> <b class="caret"></b>
                                                                 </div>
-                                                                <div class="message_wrapper">
-                                                                    <h4 class="heading">Desmond Davison</h4>
-                                                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                                    <br />
-                                                                    <p class="url">
-                                                                        <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                                                        <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                                                <div class="message_date">
-                                                                    <h3 class="date text-error">21</h3>
-                                                                    <p class="month">May</p>
-                                                                </div>
-                                                                <div class="message_wrapper">
-                                                                    <h4 class="heading">Brian Michaels</h4>
-                                                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                                    <br />
-                                                                    <p class="url">
-                                                                        <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                                                        <a href="#" data-original-title="">Download</a>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                                                <div class="message_date">
-                                                                    <h3 class="date text-info">24</h3>
-                                                                    <p class="month">May</p>
-                                                                </div>
-                                                                <div class="message_wrapper">
-                                                                    <h4 class="heading">Desmond Davison</h4>
-                                                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                                    <br />
-                                                                    <p class="url">
-                                                                        <span class="fs1 text-info" aria-hidden="true" data-icon=""></span>
-                                                                        <a href="#"><i class="fa fa-paperclip"></i> User Acceptance Test.doc </a>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
-                                                            <li>
-                                                                <img src="images/img.jpg" class="avatar" alt="Avatar">
-                                                                <div class="message_date">
-                                                                    <h3 class="date text-error">21</h3>
-                                                                    <p class="month">May</p>
-                                                                </div>
-                                                                <div class="message_wrapper">
-                                                                    <h4 class="heading">Brian Michaels</h4>
-                                                                    <blockquote class="message">Raw denim you probably haven't heard of them jean shorts Austin. Nesciunt tofu stumptown aliqua butcher retro keffiyeh dreamcatcher synth.</blockquote>
-                                                                    <br />
-                                                                    <p class="url">
-                                                                        <span class="fs1" aria-hidden="true" data-icon=""></span>
-                                                                        <a href="#" data-original-title="">Download</a>
-                                                                    </p>
-                                                                </div>
-                                                            </li>
+                                                            </div>
+                                                        </div>
 
-                                                        </ul>
-                                                        <!-- end recent activity -->
 
-                                                    </div>
-                                                    <div role="tabpanel" class="tab-pane fade" id="tab_content2" aria-labelledby="profile-tab">
+                                                        <div class="col-md-3 col-sm-3  bg-white">
+                                                            <div class="x_title">
+                                                                <h2>Top Campaign Performance</h2>
+                                                                <div class="clearfix"></div>
+                                                            </div>
 
-                                                        <!-- start user projects -->
-                                                        <table class="data table table-striped no-margin">
-                                                            <thead>
-                                                                <tr>
-                                                                    <th>#</th>
-                                                                    <th>Project Name</th>
-                                                                    <th>Client Company</th>
-                                                                    <th class="hidden-phone">Hours Spent</th>
-                                                                    <th>Contribution</th>
-                                                                </tr>
-                                                            </thead>
-                                                            <tbody>
-                                                                <tr>
-                                                                    <td>1</td>
-                                                                    <td>New Company Takeover Review</td>
-                                                                    <td>Deveint Inc</td>
-                                                                    <td class="hidden-phone">18</td>
-                                                                    <td class="vertical-align-mid">
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar progress-bar-success" data-transitiongoal="35"></div>
+                                                            <div class="col-md-12 col-sm-12 ">
+                                                                <div>
+                                                                    <p>Facebook Campaign</p>
+                                                                    <div class="">
+                                                                        <div class="progress progress_sm" style="width: 76%;">
+                                                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="0"></div>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>2</td>
-                                                                    <td>New Partner Contracts Consultanci</td>
-                                                                    <td>Deveint Inc</td>
-                                                                    <td class="hidden-phone">13</td>
-                                                                    <td class="vertical-align-mid">
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar progress-bar-danger" data-transitiongoal="15"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Twitter Campaign</p>
+                                                                    <div class="">
+                                                                        <div class="progress progress_sm" style="width: 76%;">
+                                                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="0"></div>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>3</td>
-                                                                    <td>Partners and Inverstors report</td>
-                                                                    <td>Deveint Inc</td>
-                                                                    <td class="hidden-phone">30</td>
-                                                                    <td class="vertical-align-mid">
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar progress-bar-success" data-transitiongoal="45"></div>
+                                                                    </div>
+                                                                </div>
+                                                            </div>
+                                                            <div class="col-md-12 col-sm-12 ">
+                                                                <div>
+                                                                    <p>Conventional Media</p>
+                                                                    <div class="">
+                                                                        <div class="progress progress_sm" style="width: 76%;">
+                                                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="0"></div>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>4</td>
-                                                                    <td>New Company Takeover Review</td>
-                                                                    <td>Deveint Inc</td>
-                                                                    <td class="hidden-phone">28</td>
-                                                                    <td class="vertical-align-mid">
-                                                                        <div class="progress">
-                                                                            <div class="progress-bar progress-bar-success" data-transitiongoal="75"></div>
+                                                                    </div>
+                                                                </div>
+                                                                <div>
+                                                                    <p>Bill boards</p>
+                                                                    <div class="">
+                                                                        <div class="progress progress_sm" style="width: 76%;">
+                                                                            <div class="progress-bar bg-green" role="progressbar" data-transitiongoal="0"></div>
                                                                         </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </tbody>
-                                                        </table>
-                                                        <!-- end user projects -->
+                                                                    </div>
+                                                                </div>
+                                                            </div>
 
-                                                    </div>
-                                                    <div role="tabpanel" class="tab-pane fade" id="tab_content3" aria-labelledby="profile-tab">
-                                                        <p>xxFood truck fixie locavore, accusamus mcsweeney's marfa nulla single-origin coffee squid. Exercitation +1 labore velit, blog sartorial PBR leggings next level wes anderson artisan four loko farm-to-table craft beer twee. Qui
-                                                            photo booth letterpress, commodo enim craft beer mlkshk </p>
+                                                        </div>
+
+                                                        <div class="clearfix"></div>
                                                     </div>
                                                 </div>
+
                                             </div>
+                                            <br />
+
+
+
+
+
+
+
                                         </div>
                                     </div>
                                 </div>

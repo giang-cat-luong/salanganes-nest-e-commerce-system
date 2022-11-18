@@ -22,6 +22,7 @@ import others.ReportDTO;
  */
 @WebServlet(name = "AddReportController", urlPatterns = {"/AddReportController"})
 public class AddReportController extends HttpServlet {
+
     public static final String SUCCESS = "cusSelling.jsp";
     public static final String ERROR = "error.jsp";
 
@@ -35,7 +36,7 @@ public class AddReportController extends HttpServlet {
             String description = request.getParameter("description");
             String img = request.getParameter("img");
 
-            ReportDTO report = new ReportDTO(0, cusID, productID, OtherDAO.getCurrentDateTime(), description, img, 0);
+            ReportDTO report = new ReportDTO(0, cusID, productID, OtherDAO.getCurrentDateTime(), description, img);
             if (OtherDAO.insertReport(report) == true) {
                 request.setAttribute("REPORT_SUCCESS", "Report Successful");
                 request.setAttribute("BACK_INFO", report);
@@ -49,6 +50,7 @@ public class AddReportController extends HttpServlet {
             request.getRequestDispatcher(url).forward(request, response);
         }
     }
+
     // <editor-fold defaultstate="collapsed" desc="HttpServlet methods. Click on the + sign on the left to edit the code.">
     /**
      * Handles the HTTP <code>GET</code> method.
@@ -95,4 +97,5 @@ public class AddReportController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

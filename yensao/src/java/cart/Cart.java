@@ -11,7 +11,7 @@ import java.util.Map;
  *
  * @author lequa
  */
-public class Cart {
+public class Cart{
 
     private Map<String, CartDTO> cart;
 
@@ -54,4 +54,5 @@ public class Cart {
         }
         return check;
     }
-}
+
+   }

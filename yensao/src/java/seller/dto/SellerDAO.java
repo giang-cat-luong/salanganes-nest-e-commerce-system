@@ -15,6 +15,7 @@ import java.util.ArrayList;
 import javax.naming.NamingException;
 import others.CategoryDTO;
 import others.OrderDetailDTO;
+import others.SellerInforRelative;
 import utils.DBUtils;
 
 /**
@@ -23,8 +24,8 @@ import utils.DBUtils;
  */
 public class SellerDAO {
 
-    private static final String GET_ORDERDETAIL_LIST = "SELECT orderDetailID, orderID, productID, productName, img, quantity, status, voucherID FROM orderDetail WHERE status = ? AND sellerID = ?";
-    private static final String GET_SELLER_LIST = "SELECT sellerID, sellerName, password, email, avatar, phone, role, gender, loc, balance, status FROM seller";
+    private static final String GET_ORDERDETAIL_LIST = "SELECT orderDetailID, orderID, productID, productName, img, quantity, status FROM orderDetail WHERE status = ? AND sellerID = ?";
+    private static final String GET_SELLER_LIST = "SELECT sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status FROM seller";
     private static final String REMOVE_SELLER = "DELETE seller WHERE sellerID=?";
     private static final String REMOVE_RELATIVE_ORDERDETAIL = "DELETE orderDetail WHERE productID=?";
     private static final String REMOVE_RELATIVE_REPORTPRODUCT = "DELETE reportProduct WHERE productID = ?";
@@ -33,6 +34,7 @@ public class SellerDAO {
             + "FROM product join seller on product.sellerID = seller.sellerID\n"
             + "WHERE seller.sellerID LIKE ?";
     private static final String GET_CATEGORY_LIST = "SELECT cateID, cateName FROM category";
+
     private static final String GET_BACKSELLER_LIST = "SELECT sellerName, password, email, avatar, phone, role, gender, loc, balance, status, shipAllow FROM seller WHERE sellerID=?";
     private static final String UPDATE_SELLER = "UPDATE seller "
             + " SET sellerName = ? \n"
@@ -59,14 +61,13 @@ public class SellerDAO {
                 if (rs != null) {
                     while (rs.next()) {
                         String orderDetailID = rs.getString("orderDetailID");
-                        int orderID = rs.getInt("orderID");
+                        String orderID = rs.getString("orderID");
                         String productID = rs.getString("productID");
                         String productName = rs.getString("productName");
                         String img = rs.getString("img");
                         int quantity = rs.getInt("quantity");
                         int status = rs.getInt("status");
-                        String voucherID = rs.getString("voucherID");
-                        OrderDetailDTO ord = new OrderDetailDTO(orderDetailID, orderID, sellerID, productID, productName, img, quantity, status, voucherID);
+                        OrderDetailDTO ord = new OrderDetailDTO(orderDetailID, orderID, sellerID, productID, productName, img, quantity, status, 0);
                         list.add(ord);
                     }
                 }
@@ -110,8 +111,8 @@ public class SellerDAO {
                         String loc = rs.getString("loc");
                         float profit = rs.getFloat("balance");
                         int status = rs.getInt("status");
-                        int shipAllow = rs.getInt("shipAllow");
-                        sel = new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status, shipAllow);
+
+                        sel = new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status);
                     }
                 }
             }
@@ -194,10 +195,10 @@ public class SellerDAO {
                     String role = table.getString("role");
                     String gender = table.getString("gender");
                     String loc = table.getString("loc");
-                    float profit = table.getFloat("balance");
+                    float profit = table.getFloat("profit");
                     int status = table.getInt("status");
-                    Seller acc = new Seller(sellerid, sellername, password, email, avatar, phone, role, 
-                            gender, loc, profit, status, 0);
+                    Seller acc = new Seller(sellerid, sellername, password, email, avatar, phone, role,
+                            gender, loc, profit, status);
                     list.add(acc);
                 }
             }
@@ -271,7 +272,7 @@ public class SellerDAO {
         return flag;
     }
 
-     public static boolean unBanSeller(String sellerID) throws Exception {
+    public static boolean unBanSeller(String sellerID) throws Exception {
         Connection cn = DBUtils.makeConnection();
         boolean flag = false;
         if (cn != null) {
@@ -290,7 +291,7 @@ public class SellerDAO {
         }
         return flag;
     }
-     
+
     public static boolean updateSeller(Seller seller) throws Exception {
         try {
             Connection cn = DBUtils.makeConnection();
@@ -302,7 +303,7 @@ public class SellerDAO {
             ps.setString(i++, seller.getPhone());
             ps.setString(i++, seller.getGender());
             ps.setString(i++, seller.getLocation());
-            ps.setInt(i++, seller.getShipAllow());
+
             ps.setString(i++, seller.getId());
             boolean flag = ps.executeUpdate() > 0;
             if (flag) {
@@ -314,25 +315,31 @@ public class SellerDAO {
         return false;
     }
 
-    public static boolean updateOrderDetail(String orderDetailID) throws Exception {
-        Connection cn = DBUtils.makeConnection();
-        boolean flag = false;
+    public static boolean updateOrderDetail(String orderID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
         PreparedStatement ptm = null;
         ResultSet rs = null;
+        String SQL = "UPDATE orderDetail SET status = 2 WHERE orderID = ?";
         try {
-            if (cn != null) {
-                String UPDATE_ORDER_DETAIL = "UPDATE orderDetail\n"
-                        + "SET status = 2 \n"
-                        + "WHERE orderDetailID = ?";
-                ptm = cn.prepareStatement(UPDATE_ORDER_DETAIL);
-                ptm.setString(1, orderDetailID);
-                int table = ptm.executeUpdate();
-                if (table == 1) {
-                    flag = true;
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, orderID);
+                rs = ptm.executeQuery();
+                if (ptm.executeUpdate() > 0) {
+                    check = true;
+                }
+
+                SQL = "UPDATE orders SET status = 2 WHERE orderID = ?";
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, orderID);
+                rs = ptm.executeQuery();
+                if (ptm.executeUpdate() > 0) {
+                    check = true;
                 }
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ClassNotFoundException | SQLException | NamingException e) {
         } finally {
             if (rs != null) {
                 rs.close();
@@ -340,10 +347,95 @@ public class SellerDAO {
             if (ptm != null) {
                 ptm.close();
             }
-            if (cn != null) {
-                cn.close();
+            if (conn != null) {
+                conn.close();
             }
         }
-        return flag;
+        return check;
     }
+
+    public static SellerInforRelative getSellerInfor(String sellerID) throws SQLException {
+        SellerInforRelative sir = null;
+        int totalProduct = 0, totalSold = 0, totalComment = 0;
+        float profit = 0;
+        double averageRate = 0, totalRate = 0;
+        ArrayList<String> productIdList = new ArrayList<>();
+        Connection conn = null;
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        String SQL = "SELECT count (productID) AS totalProduct FROM product WHERE sellerID = ?";
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, sellerID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    totalProduct = rs.getInt("totalProduct");
+                }
+
+                SQL = "SELECT sumSold FROM product WHERE sellerID = ?";
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, sellerID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    int tmpTotalSold = rs.getInt("sumSold");
+                    totalSold += tmpTotalSold;
+                }
+
+                SQL = "SELECT productID FROM product WHERE sellerID = ?";
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, sellerID);
+                rs = ptm.executeQuery();
+                while (rs.next()) {
+                    String productID = rs.getString("productID");
+                    productIdList.add(productID);
+                }
+
+                SQL = "SELECT count (commentID) AS totalCommnet FROM comment WHERE productID = ?";
+                for (int i = 0; i < productIdList.size(); i++) {
+                    ptm = conn.prepareStatement(SQL);
+                    ptm.setString(1, productIdList.get(i));
+                    rs = ptm.executeQuery();
+                    while (rs.next()) {
+                        int tmpComment = rs.getInt("totalCommnet");
+                        totalComment += tmpComment;
+                    }
+                }
+
+                SQL = "SELECT rate FROM comment WHERE productID = ?";
+                for (int j = 0; j < productIdList.size(); j++) {
+                    ptm = conn.prepareStatement(SQL);
+                    ptm.setString(1, productIdList.get(j));
+                    rs = ptm.executeQuery();
+                    while (rs.next()) {
+                        int tmpRate = rs.getInt("rate");
+                        totalRate += tmpRate;
+                    }
+                }
+                averageRate = totalRate / totalComment;
+                SQL = "SELECT profit FROM seller WHERE sellerID = ?";
+                ptm = conn.prepareStatement(SQL);
+                ptm.setString(1, sellerID);
+                rs = ptm.executeQuery();
+                if (rs.next()) {
+                    profit = rs.getFloat("profit");
+                }
+                sir = new SellerInforRelative(totalProduct, totalSold, profit, averageRate, totalComment);
+            }
+        } catch (ClassNotFoundException | SQLException | NamingException e) {
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (ptm != null) {
+                ptm.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return sir;
+    }
+
 }

@@ -11,6 +11,7 @@ package others;
 public class CommentDTO {
 
     private String productID;
+    private String cusName;
     private String cover;
     private String cusID;
     private String detail;
@@ -20,13 +21,30 @@ public class CommentDTO {
     public CommentDTO() {
     }
 
-    public CommentDTO(String productID, String cover, String cusID, String detail, String img, int rate) {
+    public CommentDTO(String productID, String cusName, String cover, String cusID, String detail, String img, int rate) {
         this.productID = productID;
+        this.cusName = cusName;
         this.cover = cover;
         this.cusID = cusID;
         this.detail = detail;
         this.img = img;
         this.rate = rate;
+    }
+
+    public String getProductID() {
+        return productID;
+    }
+
+    public void setProductID(String productID) {
+        this.productID = productID;
+    }
+
+    public String getCusName() {
+        return cusName;
+    }
+
+    public void setCusName(String cusName) {
+        this.cusName = cusName;
     }
 
     public String getCover() {
@@ -43,14 +61,6 @@ public class CommentDTO {
 
     public void setCusID(String cusID) {
         this.cusID = cusID;
-    }
-
-    public String getProductID() {
-        return productID;
-    }
-
-    public void setProductID(String productID) {
-        this.productID = productID;
     }
 
     public String getDetail() {
@@ -76,5 +86,7 @@ public class CommentDTO {
     public void setRate(int rate) {
         this.rate = rate;
     }
+
+   
 
 }

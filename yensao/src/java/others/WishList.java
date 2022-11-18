@@ -10,7 +10,7 @@ package others;
  */
 public class WishList {
 
-    private String wishID;
+    private int wishID;
     private String cusID;
     private String productID;
     private String cateID;
@@ -24,7 +24,7 @@ public class WishList {
     public WishList() {
     }
 
-    public WishList(String wishID, String cusID, String productID, String cateID, String sellerID, String productName, int quantity, String cover, float price, String description) {
+    public WishList(int wishID, String cusID, String productID, String cateID, String sellerID, String productName, int quantity, String cover, float price, String description) {
         this.wishID = wishID;
         this.cusID = cusID;
         this.productID = productID;
@@ -37,11 +37,11 @@ public class WishList {
         this.description = description;
     }
 
-    public String getWishID() {
+    public int getWishID() {
         return wishID;
     }
 
-    public void setWishID(String wishID) {
+    public void setWishID(int wishID) {
         this.wishID = wishID;
     }
 

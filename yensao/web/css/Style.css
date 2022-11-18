@@ -502,7 +502,7 @@ mark,
 
 .img-fluid {
   max-width: 100%;
-  height: 208px;
+  height: 255px;
 }
 
 .img-thumbnail {
@@ -9055,6 +9055,7 @@ button.bg-dark:focus {
 
 .mr-2,
 .mx-2 {
+  
   margin-right: 0.5rem !important;
 }
 
@@ -11188,6 +11189,7 @@ button.bg-dark:focus {
 }
 
 .text-left {
+   
   text-align: left !important;
 }
 
@@ -12328,9 +12330,9 @@ h5,
 }
 
 .btn.btn-black {
-  background: #000000;
-  border: 1px solid #000000;
-  color: #fff;
+  background: rgba(208,1,27,.08);
+  border: 1px solid #ff5500;
+  color: #ff5500;
 }
 
 .btn.btn-black:hover {
@@ -12672,13 +12674,14 @@ h5,
 }
 
 .product-details h3 {
+  color: #ff5500;
   font-size: 30px;
   font-weight: 400;
 }
 
 .product-details .price span {
   font-size: 30px;
-  color: #000000;
+  color: #ff5500;
 }
 
 .product-details button i {

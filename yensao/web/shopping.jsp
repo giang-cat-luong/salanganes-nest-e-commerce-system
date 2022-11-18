@@ -1,8 +1,6 @@
-<%-- 
-    Document   : shopping
-    Created on : Oct 14, 2022, 2:41:16 AM
-    Author     : Truong Giang
---%>
+
+<%@page import="seller.dto.SellerDAO"%>
+<%@page import="product.dto.ProductDAO"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -33,7 +31,10 @@
 
         <link rel="stylesheet" href="css/flaticon.css">
         <link rel="stylesheet" href="css/icomoon.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/Style.css">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="goto-here">
         <jsp:include page="header.jsp"/>
@@ -50,16 +51,41 @@
             </div>
         </div>
 
+
+        <c:if test="${requestScope.MESSAGE != null}">
+            <div class="toast show" style="background-color: #49be25;color: #fff;margin-left: 590px;margin-top:10px;margin-bottom: 0">
+                <div class="toast-header">
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    <p>${requestScope.MESSAGE}</p>
+                </div>
+            </div>
+        </c:if>
+        <c:if test="${requestScope.ADD_WISH_LIST != null}">
+            <div class="toast show" style="background-color: #49be25;color: #fff;margin-left: 590px;margin-top:10px;margin-bottom: 0">
+                <div class="toast-header">
+                    <strong class="me-auto">Success</strong>
+                    <button type="button" class="btn-close" data-bs-dismiss="toast"></button>
+                </div>
+                <div class="toast-body">
+                    <p>${requestScope.ADD_WISH_LIST}</p>
+                </div>
+            </div>
+        </c:if>
         <section class="ftco-section">
             <div class="container">
                 <div class="row justify-content-center">
                     <div class="col-md-10 mb-5 text-center">
                         <ul class="product-category">
-                            <li><a href="#" class="active">All</a></li>
-                            <li><a href="#">Yến sào 1</a></li>
-                            <li><a href="#">Yến sào 2</a></li>
-                            <li><a href="#">Yến sào 3</a></li>
-                            <li><a href="#">Yến sào 4</a></li>
+                            <c:set value="<%= SellerDAO.getCategory()%>" var="Category"/>
+                            <li><a href="MainController?action=Shopping" class="active">All</a></li>
+                                <c:forEach items="${Category}" var="category"> 
+                                <li>
+                                    <a href="MainController?action=GetProById&cateID=${category.cateID}" >${category.cateName}</a>
+                                </li>
+                            </c:forEach>                                
                         </ul>
                     </div>
                 </div>
@@ -69,7 +95,7 @@
                             <c:forEach var="product" varStatus="counter" items="${sessionScope.PRODUCT_SELLING_LIST}"> 
                                 <div class="col-md-12 col-lg-3 ftco-animate">
                                     <div class="product">
-                                        <a href="#" class="img-prod"><img class="img-fluid" src="${product.cover}" alt="Colorlib Template">
+                                        <a href="#" class="img-prod"><img class="img-fluid" src="${product.cover}" alt="Colorlib Template" style="margin-left:0px">
                                             <span class="status">30%</span>
                                             <div class="overlay"></div>
                                         </a>
@@ -77,20 +103,30 @@
                                             <h3><a href="#">${product.productName}</a></h3>
                                             <div class="d-flex">
                                                 <div class="pricing">
-                                                    <p class="price"><span class="price-sale">${product.price}</span></p>
+                                                    <p class="price"><span class="price-sale">${product.price}$</span></p>
                                                 </div>
                                             </div>
                                             <div class="bottom-area d-flex px-3">
                                                 <div class="m-auto d-flex">
-                                                    <a href="singleProduct.jsp" class="add-to-cart d-flex justify-content-center align-items-center text-center">
+                                                    <a href="MainController?action=SingleProduct&productID=${product.productID}&rate=5" class="add-to-cart d-flex justify-content-center align-items-center text-center">
                                                         <span><i class="ion-ios-menu"></i></span>
                                                     </a>
-                                                    <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                                        <span><i class="ion-ios-cart"></i></span>
-                                                    </a>
-                                                    <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                                        <span><i class="ion-ios-heart"></i></span>
-                                                    </a>
+                                                    <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                                                        <a href="MainController?action=AddToCart&productID=${product.productID}&sellerID=${product.sellerID}&cover=${product.cover}&productName=${product.productName}&cateName=${product.cateName}&quantity=1&description=${product.description}&price=${product.price}" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                            <span><i class="ion-ios-cart"></i></span>
+                                                        </a>
+                                                        <a href="MainController?action=AddWishList&productID=${product.productID}&quantity=1&cusID=${sessionScope.CUSTOMER_LOGIN.id}" class="heart d-flex justify-content-center align-items-center ">
+                                                            <span><i class="ion-ios-heart"></i></span>
+                                                        </a>
+                                                    </c:if>    
+                                                    <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
+                                                        <a href="login.jsp" class="buy-now d-flex justify-content-center align-items-center mx-1">
+                                                            <span><i class="ion-ios-cart"></i></span>
+                                                        </a>
+                                                        <a href="login.jsp" class="heart d-flex justify-content-center align-items-center ">
+                                                            <span><i class="ion-ios-heart"></i></span>
+                                                        </a>
+                                                    </c:if>
                                                 </div>
                                             </div>
                                         </div>
@@ -100,6 +136,7 @@
                         </div>
                     </c:if>
                 </c:if>
+
                 <div class="row mt-5">
                     <div class="col text-center">
                         <div class="block-27">
@@ -208,6 +245,7 @@
                     </div>
                 </div>
             </div>
+
         </footer>
 
 
@@ -232,6 +270,7 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
         <script src="js/google-map.js"></script>
         <script src="js/main.js"></script>
+
 
     </body>
 </html>

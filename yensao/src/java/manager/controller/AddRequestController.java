@@ -24,7 +24,7 @@ import others.RequestDTO;
 public class AddRequestController extends HttpServlet {
 
     public static final String SUCCESS = "requestSeller.jsp";
-    public static final String ERROR = "error.jsp";
+    public static final String ERROR = "requestSeller.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException, Exception {
@@ -33,13 +33,21 @@ public class AddRequestController extends HttpServlet {
         try {
             String cusID = request.getParameter("cusID");
             String detail = request.getParameter("detail");
-            RequestDTO req = new RequestDTO(0, cusID, detail, 0);
-            if (OtherDAO.insertRequest(req) == true) {
-                request.setAttribute("REQUEST_SUCCESS", "Request Successful");
-                url = SUCCESS;
+            String checkbox = request.getParameter("checkbox");
+            if (checkbox != null) {
+                RequestDTO req = new RequestDTO(0, cusID, detail, 0);
+                if (OtherDAO.insertRequest(req) == true) {
+                    request.setAttribute("REQUEST_INFOR", "Request Successful");
+                    url = SUCCESS;
+                } else {
+                    request.setAttribute("REQUEST_INFOR", "You Already Have Sent A Request!");
+                    url = ERROR;
+                }
             } else {
-                url = ERROR;
+                request.setAttribute("REQUEST_INFOR", "Please agree to all the terms and conditions before submitting your request");
+                url = SUCCESS;
             }
+
         } catch (Exception e) {
             System.out.println("Error at AddRequestController: " + e.toString());
         } finally {
@@ -93,4 +101,5 @@ public class AddRequestController extends HttpServlet {
     public String getServletInfo() {
         return "Short description";
     }// </editor-fold>
+
 }

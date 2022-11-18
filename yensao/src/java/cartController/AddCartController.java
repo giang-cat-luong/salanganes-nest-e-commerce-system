@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/JSP_Servlet/Servlet.java to edit this template
- */
+
 package cartController;
 
 import cart.Cart;
@@ -23,6 +20,7 @@ import javax.servlet.http.HttpSession;
 public class AddCartController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
+    private static final String SUCCESS = "shopping.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
@@ -30,19 +28,17 @@ public class AddCartController extends HttpServlet {
         String url = ERROR;
         try {
             String productID = request.getParameter("productID");
+            String sellerID = request.getParameter("sellerID");
             String cover = request.getParameter("cover");
             String name = request.getParameter("productName");
             String cateName = request.getParameter("cateName");
             int quantity = Integer.parseInt(request.getParameter("quantity"));
             String description = request.getParameter("description");
             float price = Float.parseFloat(request.getParameter("price"));
-            if (quantity == 0) {
-                quantity = 1;
-            }
             HttpSession session = request.getSession();
             if (session != null) {
                 Cart cart = (Cart) session.getAttribute("CART");
-                CartDTO cartDTO = new CartDTO(productID, cover, name, cateName, quantity, description, price);
+                CartDTO cartDTO = new CartDTO(productID, sellerID, cover, name, cateName, quantity, description, price);
                 if (cart == null) {
                     cart = new Cart();
                 }
@@ -50,6 +46,7 @@ public class AddCartController extends HttpServlet {
                 if (checkAdd == true) {
                     session.setAttribute("CART", cart);
                     request.setAttribute("MESSAGE", "Added" + " " + quantity + " " + name);
+                    url = SUCCESS;
                 }
             }
         } catch (Exception e) {

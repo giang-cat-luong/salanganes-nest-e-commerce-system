@@ -12,9 +12,8 @@
         <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
         <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
         <style>
-            
+
             html, body {
-               
                 min-height: 100%;
             }
             body, div, form, input, select, p {
@@ -24,13 +23,13 @@
                 font-family: Roboto, Arial, sans-serif;
                 font-size: 16px;
                 color: #eee;
-            }          
+            }
             h1, h2 {
                 text-transform: uppercase;
                 font-weight: 400;
             }
             h2 {
-                
+
                 margin: 0 0 0 8px;
             }
             .main-block {
@@ -52,6 +51,8 @@
                 font-size: 72px;
             }
             .form-register {
+                border: 1px solid;
+                border-radius: 20px;
                 background: rgba(0, 0, 0, 0.7);
             }
             .title {
@@ -127,8 +128,8 @@
         </style>
     </head>
     <body>
-         <jsp:include page="header.jsp"/>
-         <div class="main-block" style="background-color: #fff;background: url(images/seller.png)">
+        <jsp:include page="header.jsp"/>
+        <div class="main-block" style="background-color: #fff;background: url(images/seller.png)">
             <div class="left-part">
                 <i class="fa-solid fa-users"></i>
                 <h1>Register to be a seller </h1>
@@ -137,21 +138,28 @@
                     <a class="btn-item" href="customerProfile.jsp">Profile</a>
                 </div>
             </div>
-            <form action="customerProfile.jsp" class="form-register">
+            <form action="MainController" class="form-register">
                 <div class="title">
                     <i class="fas fa-pencil-alt"></i> 
                     <h2 style="color: #fff;">Register here</h2>
                 </div>
                 <div class="info">
-                    <input class="fname" type="text" name="name" placeholder="Full name">
+                    <input class="fname" type="text" value="" name="name" placeholder="Full name">
                     <label for="w3review">Write your desire here:</label>
-                    <textarea id="id" name="name" rows="5" cols="10"></textarea>
-                    
+                    <textarea id="id" name="detail" value="" rows="5" cols="10"></textarea>
+
                 </div>
                 <div class="checkbox">
                     <input type="checkbox" name="checkbox"><span>I agree to the <a href="#">Privacy Policy for Salanganes Nest.</a></span>
+                    <c:if test="${requestScope.REQUEST_INFOR != null}">
+                        <div style="background: #26a9e0;border: 1px solid;border-radius: 5px; margin-bottom: 10px;text-align: center">
+                            <h6 style="color:#fff;padding: 5px"><i class="fa fa-pencil-alt"></i>${requestScope.REQUEST_INFOR}</h6>                
+                        </div>
+                                     
+                    </c:if>
                 </div>
-                <button type="submit" href="customerProfile.jsp">Submit</button>
+                <input type="hidden" name="cusID" value="${sessionScope.CUSTOMER_LOGIN.id}" />
+                <button type="submit" name="action" value="AddRequest" href="customerProfile.jsp" style="background-color:  #FF5500;">Submit</button>
             </form>
         </div>
     </body>

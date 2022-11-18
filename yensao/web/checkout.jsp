@@ -3,6 +3,8 @@
     Created on : Oct 14, 2022, 3:01:41 AM
     Author     : Truong Giang
 --%>
+<%@page import="customer.dto.Customer"%>
+<%@page import="others.OtherDAO"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -36,6 +38,19 @@
         <link rel="stylesheet" href="css/style.css">
     </head>
     <body class="goto-here">
+        <%
+            String[] productID = (String[]) request.getAttribute("PRODUCT_ID_LIST");
+            int voucherID = (int) request.getAttribute("VOUCHER_ID");
+            if (voucherID == 0) {
+                voucherID = 0;
+            }
+            float cumulative = (float) request.getAttribute("CUMULATIVE");
+            if (cumulative == 0) {
+                cumulative = 0;
+            }
+            float total = (float) request.getAttribute("TOTAL");
+            Customer cus = (Customer) session.getAttribute("CUSTOMER_LOGIN");
+        %>
         <jsp:include page="header.jsp"/>
         <!-- END nav -->
 
@@ -125,51 +140,83 @@
                                     <h3 class="billing-heading mb-4">Cart Total</h3>
                                     <p class="d-flex">
                                         <span>Subtotal</span>
-                                        <span>$20.60</span>
+                                        <span>$<%= total%></span>
                                     </p>
                                     <p class="d-flex">
-                                        <span>Delivery</span>
-                                        <span>$0.00</span>
+                                        <span>Cumulative</span>
+                                        <%
+                                            float newTotal = 0;
+                                            float newCumulative = 0;
+                                            if (cumulative != 0) {
+                                                newCumulative = cumulative / 100;
+                                            }
+                                        %>
+                                        <span>- $<%= newCumulative%></span>
                                     </p>
                                     <p class="d-flex">
+                                        <%
+                                            String keyCode = "";
+                                            if (voucherID != 0) {
+                                                keyCode = OtherDAO.getKeyCode(voucherID);
+                                            }
+                                            if (keyCode.equalsIgnoreCase("RD10PT")) {
+                                                newTotal = total / 10;
+                                            } else if (keyCode.equalsIgnoreCase("RD20PT")) {
+                                                newTotal = (total * 2) / 10;
+                                            } else if (keyCode.equalsIgnoreCase("RD30PT")) {
+                                                newTotal = (total * 3) / 10;
+                                            }
+                                        %>
+
                                         <span>Discount</span>
-                                        <span>$3.00</span>
+                                        <span>$<%= newTotal%></span>
+                                        <% newTotal = total - newTotal - newCumulative;%>
                                     </p>
                                     <hr>
                                     <p class="d-flex total-price">
                                         <span>Total</span>
-                                        <span>$17.60</span>
+                                        <span>$<%= newTotal%></span>
                                     </p>
                                 </div>
                             </div>
                             <div class="col-md-12">
                                 <div class="cart-detail p-3 p-md-4">
-                                    <h3 class="billing-heading mb-4">Payment Method</h3>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="radio">
-                                                <label><input type="radio" name="optradio" class="mr-2"> Direct Cash</label>
+                                    <form action="MainController">
+                                        <h3 class="billing-heading mb-4">Payment Method</h3>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="radio">
+                                                    <label><input type="checkbox"  name="CheckOut" class="mr-2" id="DirectCash" onclick="selectMethod()"> Direct Cash</label>
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="radio" id="paypal-button">                                             
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="radio" id="paypal-button">
+                                                    <input type="checkbox" name="optradio" value="PayPal" class="mr-2" id="PayPal" onclick="selectMethod()">
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="form-group">
-                                        <div class="col-md-12">
-                                            <div class="checkbox">
-                                                <label><input type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
+                                        <div class="form-group">
+                                            <div class="col-md-12">
+                                                <div class="checkbox">
+                                                    <label><input type="checkbox" class="mr-2" id="CheckTerm"> I have read and accept the terms and conditions</label>                                               
+                                                </div>
                                             </div>
                                         </div>
-                                    </div>
 
-                                    <div >
-                                        <p><a href="#"class="btn btn-primary py-3 px-4">Place an order</a></p>
-                                    </div>
-
+                                        <div>
+                                            <%
+                                                for (String s : productID) {
+                                            %>
+                                            <input type="hidden" name="productID" value="<%= s%>" />
+                                            <% }%>
+                                            <input type="hidden" name="cumulative" value="<%= cumulative%>" />
+                                            <input type="hidden" name="voucherID" value="<%= voucherID%>" />
+                                            <input type="hidden" name="cusID" value="<%= cus.getId()%>" />
+                                            <input type="submit" placeholder="Accept Checkout" name="action" value="" class="btn btn-primary py-3 px-4" id="ConFirm" />
+                                        </div>
+                                    </form>
                                 </div>
                             </div>
                         </div>
@@ -298,46 +345,60 @@
 
         <script src="https://www.paypalobjects.com/api/checkout.js"></script>
         <script>
-                                paypal.Button.render({
-                                    // Configure environment
-                                    env: 'sandbox',
-                                    client: {
-                                        sandbox: 'AVLAAoy6DuzTIh6JnQx7DrqQM-F7e9L_P9-Ydb8TWpxqanWa_sP-DxIc5cUmxXxjM8sT8sQo0oKe87no',
-                                        production: 'demo_production_client_id'
-                                    },
-                                    // Customize button (optional)
-                                    locale: 'en_US',
-                                    style: {
-                                        size: 'small',
-                                        color: 'gold',
-                                        shape: 'pill',
-                                    },
-
-                                    // Enable Pay Now checkout flow (optional)
-                                    commit: true,
-
-                                    // Set up a payment
-                                    payment: function (data, actions) {
-                                        return actions.payment.create({
-                                            transactions: [{
-                                                    amount: {
-                                                        total: '200.0',
-                                                        currency: 'USD'
-                                                    }
-                                                }]
-                                        });
-                                    },
-                                    // Execute the payment
-                                    onAuthorize: function (data, actions) {
-                                        return actions.payment.execute().then(function () {
-                                            // Show a confirmation message to the buyer
-                                            window.alert('Thank you for your purchase!');
-                                        });
+                                function selectMethod() {
+                                    let p = document.getElementById("PayPal");
+                                    let d = document.getElementById("DirectCash");
+                                    let a = document.getElementById("ConFirm");
+                                    if (p.checked) {
+                                        a.attributes[3].value = p.attributes[2].value;
+                                    } else if (d.checked) {
+                                        a.attributes[3].value = d.attributes[1].value;
+                                    } else {
+                                        a.attributes[3].value = " ";
                                     }
-                                }, '#paypal-button');
+                                }
+        </script>
+        <script>
+            paypal.Button.render({
+                // Configure environment
+                env: 'sandbox',
+                client: {
+                    sandbox: 'AVLAAoy6DuzTIh6JnQx7DrqQM-F7e9L_P9-Ydb8TWpxqanWa_sP-DxIc5cUmxXxjM8sT8sQo0oKe87no',
+                    production: 'demo_production_client_id'
+                },
+                // Customize button (optional)
+                locale: 'en_US',
+                style: {
+                    size: 'small',
+                    color: 'gold',
+                    shape: 'pill',
+                },
+
+                // Enable Pay Now checkout flow (optional)
+                commit: true,
+
+                // Set up a payment
+                payment: function (data, actions) {
+                    return actions.payment.create({
+                        transactions: [{
+                                amount: {
+                                    total: '17.60',
+                                    currency: 'USD'
+                                }
+                            }]
+                    });
+                },
+                // Execute the payment
+                onAuthorize: function (data, actions) {
+                    return actions.payment.execute().then(function () {
+                        // Show a confirmation message to the buyer
+                        window.alert('Thank you for your purchase!');
+                    });
+                }
+            }, '#paypal-button');
 
         </script>
-       
+
         <script>
             // Set up a payment
             payment: function (data, actions) {

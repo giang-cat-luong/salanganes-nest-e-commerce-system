@@ -37,9 +37,9 @@ public class UpdateSellerController extends HttpServlet {
             String phone = request.getParameter("phone");
             String gender = request.getParameter("gender");
             String location = request.getParameter("loc");
-            int shipAllow = Integer.parseInt(request.getParameter("shipAllow"));
+            
             Seller seller = new Seller(sellerID, sellerName, password, email, "", phone, "",
-                    gender, location, 0, 1, shipAllow);
+                    gender, location, 0, 1);
             if (SellerDAO.updateSeller(seller) == true) {
                 request.setAttribute("UPDATE_SUCCESS", "Udate Successfull");
                 request.setAttribute("BACK_INFOR", seller);

@@ -28,7 +28,7 @@
                 <nav aria-label="breadcrumb" class="main-breadcrumb">
                     <ol class="breadcrumb">
                         <li class="breadcrumb-item"><a href="customerProfile.jsp">Your profile</a></li>
-
+                        <h3 class="float-right" style="color: green; padding-left: 300px">Your balance: ${sessionScope.CUSTOMER_LOGIN.balance}$</h3>
                     </ol>
                 </nav>
                 <!-- /Breadcrumb -->
@@ -39,7 +39,7 @@
                             <div class="card-body">
                                 <div class="d-flex flex-column align-items-center text-center">
                                     <img src="${sessionScope.CUSTOMER_LOGIN.avatar}" alt="Admin" class="rounded-circle" width="150">
-                                    <input type="file">
+                                    <a href="customerProfile.jsp"><h6>Edit profile</h6></a>
                                     <div class="mt-3">
                                         <h4>${sessionScope.CUSTOMER_LOGIN.name}</h4>
                                         <p class="text-secondary mb-1">${sessionScope.CUSTOMER_LOGIN.email}</p>
@@ -55,14 +55,15 @@
                                     <h6 class="mb-0"><i class="fa-solid fa-key" style="font-size:20px;color:#dbd448;"><circle cx="12" cy="12" r="10"></circle><line x1="2" y1="12" x2="22" y2="12"></line><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"></path></i><a href="changePassword.jsp"> Change password </a></h6></a>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0"><i class="fa-solid fa-cart-shopping" style="font-size:20px;color:blue;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></i><a href="#"> My purchase </a></h6>
+                                    <h6 class="mb-0"><i class="fa-solid fa-cart-shopping" style="font-size:20px;color:blue;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></i><a href="MainController?action=ViewPurchase&cusID=${sessionScope.CUSTOMER_LOGIN.id}"> My purchase </a></h6>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
-                                    <h6 class="mb-0"><i class="fa-brands fa-bitcoin" style="font-size:20px;color:red;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></i><a href="#"> My cumulative </a></h6>
+                                    <h6 class="mb-0"><i class="fa-brands fa-bitcoin" style="font-size:20px;color:red;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></i><a href="MainController?action=Cumulative&cusID=${sessionScope.CUSTOMER_LOGIN.id}"> My cumulative </a></h6>
                                 </li>
                                 <li class="list-group-item d-flex justify-content-between align-items-center flex-wrap">
                                     <h6 class="mb-0"><i class="fa-solid fa-users" style="font-size:17px;color:green;"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></i><a href="requestSeller.jsp"> Request to be a seller </a></h6>
                                 </li>
+
                             </ul>
                         </div>
                     </div>
@@ -74,35 +75,26 @@
                                         <h1>Cumulative available:</h1>
                                     </div>
                                     <div class="col-sm-6 text-secondary"style="padding-left: 170px">
-                                        <i class="fa-brands fa-bitcoin" style="font-size:120px;color:red;"><h1 style="color: #ebcf34; padding-left:13px">2000 </h1></i>
+                                        <i class="fa-brands fa-bitcoin" style="font-size:120px;color:red;"><h1 style="color: #ebcf34; padding-left:13px">${sessionScope.TOTAL_CUMULATIVE}</h1></i>
                                     </div>
-                                    
+
                                     <div class="col-sm-9 ">
                                         <h3 style="color: #ff5500">Claim History</h3>
                                     </div>
-                                    <div class="col-sm-9 ">
-                                        <p>Receive 200 cumulative from bill 20000$</p>
-                                    </div>
-                                    <div class="col-sm-3 text-secondary">
-                                        <i class="fa-brands fa-bitcoin" style="font-size:50px;color:red;"><h1 style="color: #ebcf34">+200</h1></i>
-                                    </div>
-                                    <hr/>
-                                    <div class="col-sm-9 ">
-                                        <p>Receive 200 cumulative from bill 20000$</p>
-                                    </div>
-                                    <div class="col-sm-3 text-secondary">
-                                        <i class="fa-brands fa-bitcoin" style="font-size:50px;color:red;"><h1 style="color: #ebcf34">+200</h1></i>
-                                    </div>
-                                    <hr/>
-                                    <div class="col-sm-9 ">
-                                        <p>Receive 200 cumulative from bill 20000$</p>
-                                    </div>
-                                    <div class="col-sm-3 text-secondary">
-                                        <i class="fa-brands fa-bitcoin" style="font-size:50px;color:red;"><h1 style="color: #ebcf34">+200</h1></i>
-                                    </div>
-                                    <hr/>
+                                    <c:if test="${requestScope.CUMULATIVE != null}">
+                                        <c:if test="${not empty requestScope.CUMULATIVE}">
+                                            <c:forEach var="cu"  items="${requestScope.CUMULATIVE}">
+                                                <div class="col-sm-9 ">
+                                                    <p>You get ${cu.infor} points at ${cu.time}</p>
+                                                </div>
+                                                <div class="col-sm-3 text-secondary">
+                                                    <i class="fa-brands fa-bitcoin" style="font-size:50px;color:red;"><h1 style="color: #ebcf34">+${cu.infor}</h1></i>
+                                                </div>
+                                            </c:forEach>
+                                        </c:if>
+                                    </c:if>
                                 </div>
-                              
+
                             </div>
                         </div>
 

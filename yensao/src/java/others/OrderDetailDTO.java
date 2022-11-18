@@ -11,20 +11,16 @@ package others;
 public class OrderDetailDTO {
 
     private String orderDetailID;
-    private int orderID;
+    private String orderID;
     private String sellerID;
     private String productID;
     private String productName;
     private String img;
     private int quantity;
     private int status;
-    private String voucherID;
+    private float price;
 
-    public OrderDetailDTO() {
-    }
-
-    public OrderDetailDTO(String orderDetailID, int orderID, String sellerID, String productID,
-            String productName, String img, int quantity, int status, String voucherID) {
+    public OrderDetailDTO(String orderDetailID, String orderID, String sellerID, String productID, String productName, String img, int quantity, int status, float price) {
         this.orderDetailID = orderDetailID;
         this.orderID = orderID;
         this.sellerID = sellerID;
@@ -33,30 +29,51 @@ public class OrderDetailDTO {
         this.img = img;
         this.quantity = quantity;
         this.status = status;
-        this.voucherID = voucherID;
+        this.price = price;
+    }
+
+    public OrderDetailDTO(String orderDetailID, String sellerID, String productID, int quantity) {
+        this.orderDetailID = orderDetailID;
+        this.sellerID = sellerID;
+        this.productID = productID;
+        this.quantity = quantity;
+    }
+
+    public OrderDetailDTO() {
+    }
+
+    public OrderDetailDTO(String orderDetailID, String orderID, String sellerID, String productID, String productName, String img, int quantity, int status) {
+        this.orderDetailID = orderDetailID;
+        this.orderID = orderID;
+        this.sellerID = sellerID;
+        this.productID = productID;
+        this.productName = productName;
+        this.img = img;
+        this.quantity = quantity;
+        this.status = status;
     }
 
     public String getOrderDetailID() {
         return orderDetailID;
     }
 
-    public String getImg() {
-        return img;
-    }
-
-    public void setImg(String img) {
-        this.img = img;
-    }
-
     public void setOrderDetailID(String orderDetailID) {
         this.orderDetailID = orderDetailID;
     }
 
-    public int getOrderID() {
+    public float getPrice() {
+        return price;
+    }
+
+    public void setPrice(float price) {
+        this.price = price;
+    }
+
+    public String getOrderID() {
         return orderID;
     }
 
-    public void setOrderID(int orderID) {
+    public void setOrderID(String orderID) {
         this.orderID = orderID;
     }
 
@@ -84,6 +101,14 @@ public class OrderDetailDTO {
         this.productName = productName;
     }
 
+    public String getImg() {
+        return img;
+    }
+
+    public void setImg(String img) {
+        this.img = img;
+    }
+
     public int getQuantity() {
         return quantity;
     }
@@ -98,14 +123,6 @@ public class OrderDetailDTO {
 
     public void setStatus(int status) {
         this.status = status;
-    }
-
-    public String getVoucherID() {
-        return voucherID;
-    }
-
-    public void setVoucherID(String voucherID) {
-        this.voucherID = voucherID;
     }
 
 }

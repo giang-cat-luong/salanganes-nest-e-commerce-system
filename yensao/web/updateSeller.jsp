@@ -63,33 +63,25 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Shop <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li><a href="profile.jsp">Shop profile</a></li>
                                             <li><a href="tables.html">Shop rating</a></li>
-                                            <li><a href="tables.html">Shop profile</a></li>
-                                            <li><a href="tables.html">Shop reports</a></li>
-
                                         </ul>
                                     </li>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> Order <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="showOrderDetail.jsp">All orders</a></li>
-                                            <li><a href="form_advanced.html">Cancellation</a></li>
-                                            <li><a href="form_validation.html">Return/Refund</a></li>                                           
+                                            <li><a href="MainController?action=ShowOrders&sellerID=${sessionScope.SELLER_LOGIN.id}">All orders</a></li>
+                                            <li><a href="form_advanced.html">Cancellation</a></li>                                           
+                                            <li><a href="form_advanced.html">Completed</a></li>                                           
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-suitcase"></i> Product <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="sellSelling.jsp">My products</a></li>
-                                            <li><a href="newProduct.jsp">Add new product</a></li>
-                                            <li><a href="newProduct.jsp">Reviewing products</a></li>
-                                            <li><a href="typography.html">Product violations</a></li>                                           
+                                            <li><a href="MainController?action=SellingPage&sellerID=${sessionScope.SELLER_LOGIN.id}">My products</a></li>
+                                            <li><a href="newProduct.jsp">Add new product</a></li>                                           
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-cc-paypal"></i> Shipment <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="index.html">My shipment</a></li>
-                                            <li><a href="index2.html">Shipment setting</a></li>
-                                        </ul>
+
                                 </ul>
                             </div>
 
@@ -112,14 +104,14 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"  href="profile.jsp"> Profile</a>
-                                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a class="dropdown-item"  href="MainController?action=Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="nav-item dropdown open">
                                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <span class="badge bg-green"></span>
                                     </a>
                                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                         <li class="nav-item">
@@ -216,7 +208,7 @@
                                         <ul class="nav navbar-right panel_toolbox">
                                             <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
                                             </li>
-                                           
+
                                         </ul>
                                         <div class="clearfix"></div>
                                     </div>
@@ -230,23 +222,23 @@
                                                     <input type="file" id="uploader">
                                                 </div>
                                             </div>
-                                            <h3>${sessionScope.SELLER_LOGIN.name}</h3>
+                                            <h3><input type="text" name="name" value="${sessionScope.SELLER_LOGIN.name}"/></h3>
 
                                             <ul class="list-unstyled user_data">
-                                                <li><i class="fa fa-map-marker user-profile-icon"></i><input type="text" name="productID" value="${product.productID}"/>
+                                                <li><i class="fa fa-envelope"></i>
+                                                    <input type="text" name="email" value="${sessionScope.SELLER_LOGIN.email}"/>
                                                 </li>
 
                                                 <li>
-                                                    <i class="fa fa-briefcase user-profile-icon"></i><input type="text" name="productID" value="${product.productID}"/>
+                                                    <i class="fa fa-phone"></i>
+                                                    <input type="text" name="phone" value="${sessionScope.SELLER_LOGIN.phone}"/>
                                                 </li>
-
-                                                <li class="m-top-xs">
-                                                    <i class="fa fa-external-link user-profile-icon"></i>
-                                                    <input type="text" name="productID" value="${product.productID}"/>
-                                                </li>
+                                                <li>
+                                                    <i class="fa fa-location-arrow"></i>
+                                                    <input type="text" name="location" value="${sessionScope.SELLER_LOGIN.location}"/>
+                                                </li>                                          
                                             </ul>
-
-                                            <a href="updateSeller.jsp" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Save</a>
+                                            <a href="MainController?action=Finish" class="btn btn-success"><i class="fa fa-edit m-right-xs"></i>Save</a>
                                             <br />
 
                                             <!-- start skills -->

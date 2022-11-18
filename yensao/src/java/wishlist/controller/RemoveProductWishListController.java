@@ -21,7 +21,7 @@ import others.OtherDAO;
 public class RemoveProductWishListController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "wishlist.jsp";
+    private static final String SUCCESS = "MainController?action=WishList";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

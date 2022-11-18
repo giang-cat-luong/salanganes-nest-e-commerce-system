@@ -8,10 +8,10 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Vegefoods - Free Bootstrap 4 Template by Colorlib</title>
+        <title>wishlist</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-
+        
         <link href="https://fonts.googleapis.com/css?family=Poppins:200,300,400,500,600,700,800&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Lora:400,400i,700,700i&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Amatic+SC:400,700&display=swap" rel="stylesheet">
@@ -56,76 +56,38 @@
                             <table class="table">
                                 <thead class="thead-primary">
                                     <tr class="text-center">
-                                        <th>&nbsp;</th>
                                         <th>Product List</th>
-                                        <th>&nbsp;</th>
                                         <th>Price</th>
                                         <th>Quantity</th>
                                         <th>Total</th>
+                                        <th>Total</th>
+                                        <th>Action</th>
                                     </tr>
                                 </thead>
-                                <tbody>
-                                    <tr class="text-center">
-                                        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-                                        <td class="image-prod"><div class="img" style="background-image:url(images/drink.jpg);"></div></td>
-
-                                        <td class="product-name">
-                                            <h3>Yến sào 1</h3>
-                                            <p>Far far away, behind the hills and mountains of Rach Gia - Kien Giang province.</p>
-                                        </td>
-
-                                        <td class="price">$4.90</td>
-
-                                        <td class="quantity">
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                                            </div>
-                                        </td>
-
-                                        <td class="total">$4.90</td>
-                                    </tr><!-- END TR-->
-                                    <tr class="text-center">
-                                        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-                                        <td class="image-prod"><div class="img" style="background-image:url(images/drink.jpg);"></div></td>
-
-                                        <td class="product-name">
-                                            <h3>Yến sào 1</h3>
-                                            <p>Far far away, behind the hills and mountains of Rach Gia - Kien Giang province.</p>
-                                        </td>
-
-                                        <td class="price">$4.90</td>
-
-                                        <td class="quantity">
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                                            </div>
-                                        </td>
-
-                                        <td class="total">$4.90</td>
-                                    </tr><!-- END TR-->
-                                    <tr class="text-center">
-                                        <td class="product-remove"><a href="#"><span class="ion-ios-close"></span></a></td>
-
-                                        <td class="image-prod"><div class="img" style="background-image:url(images/drink.jpg);"></div></td>
-
-                                        <td class="product-name">
-                                            <h3>Yến sào 1</h3>
-                                            <p>Far far away, behind the hills and mountains of Rach Gia - Kien Giang province.</p>
-                                        </td>
-
-                                        <td class="price">$4.90</td>
-
-                                        <td class="quantity">
-                                            <div class="input-group mb-3">
-                                                <input type="text" name="quantity" class="quantity form-control input-number" value="1" min="1" max="100">
-                                            </div>
-                                        </td>
-
-                                        <td class="total">$4.90</td>
-                                    </tr><!-- END TR-->       
-                                </tbody>
+                                <c:if test="${sessionScope.WISH_LIST != null}">
+                                    <c:if test="${not empty sessionScope.WISH_LIST}">
+                                        <tbody>
+                                            <c:forEach var="wishlist" items="${sessionScope.WISH_LIST}">
+                                                <tr class="text-center">
+                                                    <td class="image-prod"><div class="img" style="background-image:url(${wishlist.cover});"></div></td>
+                                                    <td class="product-name">
+                                                        <h3>${wishlist.productName}</h3>
+                                                        <p>${wishlist.description}</p>
+                                                    </td>
+                                                    <td class="price">${wishlist.price}$</td>
+                                                    <td class="price">${wishlist.quantity}</td>
+                                                    </td>
+                                                    <td class="total">${wishlist.price *  wishlist.quantity}$</td>
+                                                    <td class="product-remove">
+                                                        <a href="MainController?action=RemoveWishList&wishID=${wishlist.wishID}" style="color: #FF5500"><span class="ion-ios-close"></span></a>
+                                                        <a href="#" style="color: #FF5500"><span> Add to cart</span></a>
+                                                        
+                                                    </td>
+                                                </tr><!-- END TR-->   
+                                            </c:forEach>
+                                        </tbody>
+                                    </c:if>
+                                </c:if>
                             </table>
                         </div>
                     </div>

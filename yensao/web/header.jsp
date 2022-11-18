@@ -3,6 +3,8 @@
     Created on : Sep 30, 2022, 12:40:09 AM
     Author     : Truong Giang
 --%>
+<%@page import="cart.CartDTO"%>
+<%@page import="cart.Cart"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -84,22 +86,40 @@
                             <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Shop</a>
                             <div class="dropdown-menu" aria-labelledby="dropdown04">
                                 <a class="dropdown-item" href="MainController?action=Shopping">Shop</a>
-                                <a class="dropdown-item" href="wishlist.jsp">Wishlist</a>
-                                <a class="dropdown-item" href="cart.jsp">Cart</a>
+                                <a class="dropdown-item" href="MainController?action=WishList">Wishlist</a>
+                                <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                                    <a class="dropdown-item" href="MainController?action=ViewCart&cusID=${sessionScope.CUSTOMER_LOGIN.id}">Cart</a>
+                                </c:if>
                                 <a class="dropdown-item" href="checkout.jsp">Checkout</a>
                             </div>
                         </li>
                         <li class="nav-item"><a href="MainController?action=Blog" class="nav-link">Blog</a></li>
                         <li class="nav-item"><a href="contact.jsp" class="nav-link">Contact</a></li>
-                        <li class="nav-item cta cta-colored"><a href="cart.jsp" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
-                        <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
-                        <li class="nav-item"><a href="login.jsp" class="nav-link">Login</a></li>
-                        </c:if>   
-                        <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                            <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                                <% Cart c = (Cart) session.getAttribute("CART");
+                                    int count = 0;
+                                    if (c != null) {
+                                        for (CartDTO ct : c.getCart().values()) {
+                                            count++;
+                                        }
+                                    }
+
+                                %>
+                            <li class="nav-item cta cta-colored"><a href="MainController?action=ViewCart&cusID=${sessionScope.CUSTOMER_LOGIN.id}" class="nav-link"><span class="icon-shopping_cart"></span>[<%=count%>]</a></li>
+                            </c:if>
+                            <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
+
+                            <li class="nav-item cta cta-colored"><a href="login.jsp" class="nav-link"><span class="icon-shopping_cart"></span>[0]</a></li>
+                            </c:if>    
+                            <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
+                            <li class="nav-item"><a href="login.jsp" class="nav-link">Login</a></li>
+                            </c:if>   
+                            <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
                             <li class="nav-item dropdown">
                                 <a class="nav-link dropdown-toggle" href="#" id="dropdown04" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">${sessionScope.CUSTOMER_LOGIN.name}</a>
                                 <div class="dropdown-menu" aria-labelledby="dropdown04">
-                                    <a class="dropdown-item" href="customerProfile.jsp">Profile</a>
+                                    <a class="dropdown-item" href="customerProfile.jsp">Profile </a>
+                                    <a class="dropdown-item" href="MainController?action=ViewPurchase&cusID=${sessionScope.CUSTOMER_LOGIN.id}">My Purchase </a>
                                     <a class="dropdown-item" href="MainController?action=Logout">Logout</a>
                                 </div>
                             </li>

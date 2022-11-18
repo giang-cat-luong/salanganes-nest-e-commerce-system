@@ -20,7 +20,7 @@ import others.OtherDAO;
 @WebServlet(name = "AddWishListController", urlPatterns = {"/AddWishListController"})
 public class AddWishListController extends HttpServlet {
     private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "cusSelling.jsp";
+    private static final String SUCCESS = "shopping.jsp";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");
@@ -33,7 +33,8 @@ public class AddWishListController extends HttpServlet {
                 quantity = 1;
             }
             boolean check = OtherDAO.addWishlist(productID, cusID, quantity);
-            if(check) url = SUCCESS;
+            if(check) request.setAttribute("ADD_WISH_LIST", "Add WishList Sucessfull");
+            url = SUCCESS;
         } catch (Exception e) {
             log("Error at AddWishListController: " + e.toString());
         } finally {

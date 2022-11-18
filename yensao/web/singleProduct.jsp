@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
     <head>
-        <title>Vegefoods - Free Bootstrap 4 Template by Colorlib</title>
+        <title>Single Product</title>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
@@ -32,12 +32,17 @@
 
 
         <link rel="stylesheet" href="css/flaticon.css">
-        <link rel="stylesheet" href="css/icomoon.css">
-        <link rel="stylesheet" href="css/style.css">
+        <link rel="stylesheet" href="css/icomoon.css">  
+        <link rel="stylesheet" href="css/Style.css">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link href="https://getbootstrap.com/docs/5.2/assets/css/docs.css" rel="stylesheet">
+
+        <script src="https:/xc//cdn.jsdelivr.net/npm/bootstrap@5.2.2/dist/js/bootstrap.bundle.min.js"></script>
     </head>
     <body class="goto-here">
         <jsp:include page="header.jsp"/>
-        <div class="hero-wrap hero-bread" style="background-image: url('images/bg_1.jpg');">
+        <div class="hero-wrap hero-bread" style="background-image: url('images/banner.jpg');">
             <div class="container">
                 <div class="row no-gutters slider-text align-items-center justify-content-center">
                     <div class="col-md-9 ftco-animate text-center">
@@ -47,204 +52,152 @@
                 </div>
             </div>
         </div>
+        <c:if test="${requestScope.SINGLE_PRODUCT != null}">
+            <c:if test="${not empty requestScope.SINGLE_PRODUCT}">
+                <section class="ftco-section" >
+                    <div class="container" >
+                        <div class="row border" style="padding: 10px 10px 0px 10px;border-radius: 10px;border :30px outset #fff ;">
+                            <div class="col-lg-6 mb-5 ftco-animate">
+                                <a href="https://toyenkhanhhoa.vn/wp-content/uploads/2019/01/2-400x400.jpg" class="image-popup"><img style="height: 400px" src="${requestScope.SINGLE_PRODUCT.cover}" class="img-fluid" alt="Colorlib Template"></a>
+                            </div>
 
-        <section class="ftco-section">
-            <div class="container">
-                <div class="row">
-                    <div class="col-lg-6 mb-5 ftco-animate">
-                        <a href="https://toyenkhanhhoa.vn/wp-content/uploads/2019/01/2-400x400.jpg" class="image-popup"><img src="https://bizweb.dktcdn.net/100/230/772/articles/hong-yen-la-gi.jpg?v=1588213526903" class="img-fluid" alt="Colorlib Template"></a>
-                    </div>
-                    <div class="col-lg-6 product-details pl-md-5 ftco-animate">
-                        <h3>HONG YEN MAU HONG</h3>
-                        <div class="rating d-flex">
-                            <p class="text-left mr-4">
-                                <a href="#" class="mr-2">5.0</a>
-                                <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                <a href="#"><span class="ion-ios-star-outline"></span></a>
-                                <a href="#"><span class="ion-ios-star-outline"></span></a>
-                            </p>
-                            <p class="text-left mr-4">
-                                <a href="#" class="mr-2" style="color: #000;">100 <span style="color: #bbb;">Rating</span></a>
-                            </p>
-                            <p class="text-left">
-                                <a href="#" class="mr-2" style="color: #000;">500 <span style="color: #bbb;">Sold</span></a>
-                            </p>
-                        </div>
-                        <p class="price"><span>$199.0</span></p>
-                        <p>Sạch lông, màu trắng ánh kim<br/>
-                            Được tạo hình bằng khuông hình cánh sen, không sợi. <br/>
-                            Được làm từ phần sợi mảnh và ngắn ở phần bụng tổ kết hợp cùng phần chân tổ của tổ yến
-                        </p>
-                        <div class="row mt-4">
-                            <div class="col-md-6">
-                                <div class="form-group d-flex">
-                                    <div class="select-wrap">
-                                        <div class="icon"><span class="ion-ios-arrow-down"></span></div>
-                                        <select name="" id="" class="form-control">
-                                            <option value="">Small</option>
-                                            <option value="">Medium</option>
-                                            <option value="">Large</option>
-                                            <option value="">Extra Large</option>
-                                        </select>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="w-100"></div>
-                            <div class="input-group col-md-6 d-flex mb-3">
-                                <span class="input-group-btn mr-2">
-                                    <button type="button" class="quantity-left-minus btn"  data-type="minus" data-field="">
-                                        <i class="ion-ios-remove"></i>
-                                    </button>
-                                </span>
-                                <input type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
-                                <span class="input-group-btn ml-2">
-                                    <button type="button" class="quantity-right-plus btn" data-type="plus" data-field="">
-                                        <i class="ion-ios-add"></i>
-                                    </button>
-                                </span>
-                            </div>
-                            <div class="w-100"></div>
-                            <div class="col-md-12">
-                                <p style="color: #000;">600 kg available</p>
-                            </div>
-                        </div>
-                        <p><a href="cart.jsp" class="btn btn-black py-3 px-5">Add to Cart</a></p>
-                        <p><a href="wishlist.jsp" class="btn btn-black py-3 px-5">Add to Wishlist</a></p>
-                    </div>
-                </div>
-            </div>
-        </section>
+                            <div class="col-lg-6 product-details pl-md-5 ftco-animate">
+                                <form id="SBF" action="MainController">
+                                    <h3 >${requestScope.SINGLE_PRODUCT.productName}</h3>
+                                    <div class="rating d-flex">
+                                        <p class="text-left mr-4">
+                                            <a href="#" class="mr-2" style="border-bottom: 2px solid #ff5500; ">${requestScope.SUM_RATE}</a>
+                                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                            <a href="#"><span class="ion-ios-star-outline"></span></a>
+                                        </p>
 
-<!--        <section class="ftco-section">
-            <div class="container">
-                <div class="row justify-content-center mb-3 pb-3">
-                    <div class="col-md-12 heading-section text-center ftco-animate">
-                        <span class="subheading">Products</span>
-                        <h2 class="mb-4">Related Products</h2>
-                        <p>Far far away, behind the word mountains, far from the countries Vokalia and Consonantia</p>
+                                        <a href="#" class="mr-2" style="color: #000;"><p style="border-bottom: 2px solid #ff5500; margin-bottom: 0">100<p/><span style="color: #bbb;"> Rating </span></a>
+
+                                        <p class="text-left">
+                                            <a href="#" class="mr-2" style="color: #000;margin-left: 10px">${requestScope.TOTAL_SELL}<span style="color: #bbb;"> Sold</span></a>
+                                        </p>
+                                    </div>
+                                    <p class="price"><span>${requestScope.SINGLE_PRODUCT.price}$</span></p>
+                                    <p>${requestScope.SINGLE_PRODUCT.description}
+                                    </p>
+                                    <div class="row mt-4">
+                                        <div class="input-group col-md-6 d-flex mb-3">
+                                            <span class="input-group-btn mr-2">
+                                                <button type="button" onclick="setMinus()" class="quantity-left-minus btn"  data-type="minus" data-field="">
+                                                    <i class="ion-ios-remove"></i>
+                                                </button>
+                                            </span>
+                                            <input type="text" id="number" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+                                            <span class="input-group-btn ml-2">
+                                                <button type="button" onclick="setAdd()"class="quantity-right-plus btn" data-type="plus" data-field="">
+                                                    <i class="ion-ios-add"></i>
+                                                </button>
+                                            </span>
+                                        </div>
+                                        <div class="w-100"></div>
+
+                                    </div>
+                                    <div class="col-md-12 d-flex mb-3" style="margin-top: 50px">
+                                        <c:if test="${sessionScope.CUSTOMER_LOGIN != null }">
+                                            <p><a href="MainController?action=AddWishList&productID=${requestScope.SINGLE_PRODUCT.productID}&quantity=1&cusID=${sessionScope.CUSTOMER_LOGIN.id}" class="btn btn-black py-3 px-3">Add to Wishlist</a></p>
+                                            <input type="hidden" name="productID" value="${requestScope.SINGLE_PRODUCT.productID}"/>
+                                            <input type="hidden" name="sellerID" value="${requestScope.SINGLE_PRODUCT.sellerID}"/>
+                                            <input type="hidden" name="cover" value="${requestScope.SINGLE_PRODUCT.cover}"/>
+                                            <input type="hidden" name="productName" value="${requestScope.SINGLE_PRODUCT.productName}"/>
+                                            <input type="hidden" name="cateName" value="${requestScope.SINGLE_PRODUCT.cateName}"/>
+                                            <input type="hidden" name="description" value="${requestScope.SINGLE_PRODUCT.description}"/>
+                                            <input type="hidden" name="price" value="${requestScope.SINGLE_PRODUCT.price}"/>
+                                            <button type="submit" name="action" value="AddToCart" style="
+                                                    border-radius: 30px;
+                                                    color: #ff5500;
+                                                    margin-left: 5px;
+                                                    padding-bottom: 40px;
+                                                    padding-top: 18px
+                                                    ">Add To Cart</button>
+                                        </c:if>
+                                        <c:if test="${sessionScope.CUSTOMER_LOGIN == null }">
+                                            <p><a href="login.jsp" class="btn btn-black py-3 px-3">Add to Wishlist</a></p>
+                                            <p><a href="login.jsp" class="btn btn-black py-3 px-3" style="margin-left: 5px">Add to Cart</a></p>
+                                        </c:if>
+                                    </div>
+                                </form>
+                            </div>
+
+                        </div>
+
+                        <div class="row border" style="background-color: #fff; margin-top: 10px;border-radius: 10px inset ;border-radius: 10px;box-shadow: 5px 10px #f5f5f5;" >
+
+                            <div class="col-md-3 ftco-animate" style="margin: 10px 0px 10px 50px">
+                                <div class='row'>
+                                    <div class="col">
+                                        <img src="${requestScope.SELLER_PRODUCT.avatar}" class="rounded-circle mb-3" style="width: 80px;"
+                                             alt="Avatar" />
+                                        <h5><strong >${requestScope.SELLER_PRODUCT.name}</strong></h5>
+                                    </div>
+                                    <div class="col">
+                                        <span class="badge text-bg-danger" style="margin-top: 1px; font-size: 15px "><span class="icon-backward"> 15 Days Return</span></span>
+                                        <span class="badge text-bg-warning" style="margin-top: 20px;font-size: 15px"><span class="icon-check"/> 100% Authentic</span></span>
+                                        <span class="badge text-bg-success" style="margin-top: 20px;font-size: 15px"><span class="icon-ambulance"/> Free Shipping</span></span>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-3" style="margin: 10px 0px 10px 50px">
+                                <p class="fw-bolder"><span class="icon-phone">  ${requestScope.SELLER_PRODUCT.phone}.</p>
+                                <p class="fw-bolder"><span class="icon-envelope">  ${requestScope.SELLER_PRODUCT.email}.</p>
+                                <p class="fw-bolder"><span class="icon-address-card">  ${requestScope.SELLER_PRODUCT.location}.</p>
+                            </div>
+                            <div class="col-md-4" style="margin: 10px 0px 10px 50px;border-left: 1px solid #ff5500">
+                                <p class="fw-bolder" style="padding-left: 70px"> <span style="color: #ff5500">Response Rate</span> 86%</p>
+                                <p class="fw-bolder" style="padding-left: 70px"> <span style="color: #ff5500">Response Time</span> within hours</p>
+                                <p class="fw-bolder" style="padding-left: 70px"> <span style="color: #ff5500">Products</span> 12</p>
+                            </div>
+                        </div>
+
                     </div>
-                </div>   		
+                </section>
+            </c:if>
+        </c:if>
+        <div class="container">
+            <div class="row ">
+                <h3>Product Ratings</h3>
             </div>
-            <div class="container">
-                <div class="row">
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/product-1.jpg" alt="Colorlib Template">
-                                <span class="status">30%</span>
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Bell Pepper</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
+        </div>
+
+        <div class="container mt-1">
+
+            <div class="row ">
+
+                <div class="col-md-12">
+                    <c:forEach var="cmt" items="${requestScope.ALL_RATE}">
+                        <div class="card">
+                            <ul class="list-unstyled">
+                                <!--FIRST LIST ITEM-->
+                                <li class="media"> <span class="round pt-2"><img src="${cmt.cover}" class="align-self-start mr-3" style="width: 100px"></span>
+                                    <div class="media-body">
+                                        <div class="row d-flex">
+                                            <h6 class="user pt-2">${cmt.cusName}</h6>
+                                            <div class="ml-auto">
+                                                <p class="text">3m</p>
+                                            </div>
+                                        </div>
+                                        <p class="text">${cmt.detail}</p>
+                                        <div class="images mt-2"> <img src="${cmt.img}" /> <img src="https://img.icons8.com/bubbles/100/000000/check-male.png" /> <img src="https://img.icons8.com/bubbles/100/000000/lock-female-user.png" /> <img src="https://img.icons8.com/bubbles/100/000000/lock-male-user.png" /> </div>
                                     </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
+                                </li>
+                                <hr style="height:1px;border-width:0;color:gray;background-color:gray;margin-left:50px;margin-right:50px">
+
+                            </ul>
                         </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/product-2.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Strawberry</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/product-3.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Green Beans</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/product-4.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Purple Cabbage</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
+
             </div>
-        </section>-->
+
+        </div>
 
         <section class="ftco-section ftco-no-pt ftco-no-pb py-5 bg-light">
             <div class="container py-4">
@@ -336,6 +289,7 @@
                     </div>
                 </div>
             </div>
+
         </footer>
 
 
@@ -360,42 +314,67 @@
         <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
         <script src="js/google-map.js"></script>
         <script src="js/main.js"></script>
-
         <script>
-                                $(document).ready(function () {
+                                function myFunction() {
+                                    document.getElementById("GFG").submit();
+                                }
+        </script>
+        <script>
+            function setAdd() {
+                let a = document.getElementById('number');
+                var currentQuantity = a.attributes[4].value;
+                var newQuantity = Number(currentQuantity) + 1;
+                a.attributes[4].value = newQuantity;
+            }
+        </script>
+        <script>
+            function setMinus() {
+                let a = document.getElementById('number');
+                var newQuantity = 0;
+                var currentQuantity = a.attributes[4].value;
+                if (Number(currentQuantity) > 0) {
+                    newQuantity = Number(currentQuantity) - 1;
+                } else {
+                    newQuantity = Number(currentQuantity);
+                }
+                a.attributes[4].value = newQuantity;
+            }
+        </script>
+        <script>
+            $(document).ready(function () {
 
-                                    var quantitiy = 0;
-                                    $('.quantity-right-plus').click(function (e) {
+                var quantity = 0;
+                $('.quantity-right-plus').click(function (e) {
 
-                                        // Stop acting like a button
-                                        e.preventDefault();
-                                        // Get the field name
-                                        var quantity = parseInt($('#quantity').val());
+                    // Stop acting like a button
 
-                                        // If is not undefined
+                    // Get the field name
+                    var quantity = parseInt($('#quantity').val());
 
-                                        $('#quantity').val(quantity + 1);
+                    // If is not undefined
+
+                    $('#quantity').val(quantity + 1);
 
 
-                                        // Increment
+                    // Increment
 
-                                    });
+                });
 
-                                    $('.quantity-left-minus').click(function (e) {
-                                        // Stop acting like a button
-                                        e.preventDefault();
-                                        // Get the field name
-                                        var quantity = parseInt($('#quantity').val());
+                $('.quantity-left-minus').click(function (e) {
+                    // Stop acting like a button
+                    e.preventDefault();
+                    // Get the field name
+                    var quantity = parseInt($('#quantity').val());
 
-                                        // If is not undefined
+                    // If is not undefined
 
-                                        // Increment
-                                        if (quantity > 0) {
-                                            $('#quantity').val(quantity - 1);
-                                        }
-                                    });
+                    // Increment
+                    if (quantity > 0) {
+                        $('#quantity').val(quantity - 1);
+                    }
+                });
 
-                                });
+            });
         </script>
 
     </body>

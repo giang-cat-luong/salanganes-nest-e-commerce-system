@@ -22,14 +22,19 @@ public class Seller {
     private String location;
     private float profit;
     private int status;
-    private int shipAllow;
 
     public Seller() {
 
     }
 
+    public Seller(String id, String name, String avatar) {
+        this.id = id;
+        this.name = name;
+        this.avatar = avatar;
+    }
+
     public Seller(String id, String name, String password, String email, String avatar, String phone, String role, String gender,
-            String location, float profit, int status, int shipAllow) {
+            String location, float profit, int status) {
         this.id = id;
         this.name = name;
         this.password = password;
@@ -41,19 +46,11 @@ public class Seller {
         this.location = location;
         this.profit = profit;
         this.status = status;
-        this.shipAllow = shipAllow;
+
     }
 
     public String getId() {
         return id;
-    }
-
-    public int getShipAllow() {
-        return shipAllow;
-    }
-
-    public void setShipAllow(int shipAllow) {
-        this.shipAllow = shipAllow;
     }
 
     public String getName() {

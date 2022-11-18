@@ -15,7 +15,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import others.SellerInforRelative;
 import seller.dto.Seller;
+import seller.dto.SellerDAO;
 
 /**
  *
@@ -24,7 +26,7 @@ import seller.dto.Seller;
 @WebServlet(name = "LoginController", urlPatterns = {"/LoginController"})
 public class LoginController extends HttpServlet {
 
-    private final String ERROR = "error.jsp";
+    private final String ERROR = "login.jsp";
     private final String SUCCESSUS = "customerPage.jsp";
     private final String SUCCESSSE = "sellerPage.jsp";
 
@@ -52,8 +54,15 @@ public class LoginController extends HttpServlet {
                 if (!sell.getRole().equalsIgnoreCase("SE")) {
                     request.setAttribute("ERROR_ROLE", "Soory Your Role Is Not Valid!");
                 } else {
-                    session.setAttribute("SELLER_LOGIN", sell);
-                    url = SUCCESSSE;
+                    if (sell.getStatus() == 2) {
+                        request.setAttribute("ERROR_BAN", "Your account is banned!");
+                        url = ERROR;
+                    } else {
+                        session.setAttribute("SELLER_LOGIN", sell);
+                        SellerInforRelative sir = SellerDAO.getSellerInfor(sell.getId());
+                        session.setAttribute("SELLER_INFOR_RELATIVE", sir);
+                        url = SUCCESSSE;
+                    }
                 }
             } else {
                 request.setAttribute("ERROR_LOGIN", "Incorrect Name Or Password!");

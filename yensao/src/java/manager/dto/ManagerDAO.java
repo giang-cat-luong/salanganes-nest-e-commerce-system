@@ -20,14 +20,14 @@ import utils.DBUtils;
  * @author lequa
  */
 public class ManagerDAO {
-    
-    private static final String GET_REPORT_LIST = "SELECT reportID, cusID, productID, dateReport, description, img, status FROM reportProduct WHERE status = 1";
+
+    private static final String GET_REPORT_LIST = "SELECT reportID, cusID, productID, dateReport, description, img FROM reportProduct";
     private static final String GET_PRODUCT_LIST = "SELECT productID, cateID, sellerID, productName, cateName, quantity, cover, price, description FROM product WHERE status = 1";
     private static final String UPDATE_REQUEST = "UPDATE request SET status = 2 WHERE requestID = ?";
     private static final String SELECT_CUSTOMER = "SELECT cusName, password, email, avatar, cusPhone, gender, loc, balance FROM customer WHERE cusID = ?";
     private static final String INSERT_SELLER = "INSERT INTO  seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, balance) VALUES (?, ?, ?, ?, ? ,?, ?, ?, ?)";
     private static final String UPDATE_ROLE_CUSTOMER = "UPDATE customer SET role = ? WHERE cusID = ?";
-    
+
     public boolean updateRequest(int requestID, String cusID) throws SQLException {
         boolean check = false;
         Connection conn = null;
@@ -52,7 +52,7 @@ public class ManagerDAO {
                         String gender = rs.getString("gender");
                         String loc = rs.getString("loc");
                         float balance = rs.getFloat("balance");
-                        
+
                         ptm = conn.prepareStatement(INSERT_SELLER);
                         ptm.setString(1, "");
                         ptm.setString(2, cusName);
@@ -93,7 +93,7 @@ public class ManagerDAO {
         }
         return check;
     }
-    
+
     public static ArrayList<ReportDTO> getReportList() throws SQLException, Exception {
         try {
             Connection conn = DBUtils.makeConnection();
@@ -104,8 +104,7 @@ public class ManagerDAO {
                 ReportDTO rep = new ReportDTO(rs.getInt("reportID"), rs.getString("cusID"),
                         rs.getString("productID"), rs.getTimestamp("dateReport"),
                         rs.getString("description"),
-                        rs.getString("img"),
-                        rs.getInt("status"));
+                        rs.getString("img"));
                 list.add(rep);
             }
             return list;
@@ -114,7 +113,7 @@ public class ManagerDAO {
         }
         return null;
     }
-    
+
     public static ArrayList<Product> getProductList() throws SQLException, Exception {
         try {
             Connection conn = DBUtils.makeConnection();
@@ -135,7 +134,7 @@ public class ManagerDAO {
         }
         return null;
     }
-    
+
     public boolean addNewUser(String name, String password, String email,
             String avatar, int phone, String role, String gender, String loc) throws SQLException {
         boolean check = false;

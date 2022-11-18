@@ -14,6 +14,7 @@ import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 /**
  *
@@ -22,7 +23,7 @@ import javax.servlet.http.HttpServletResponse;
 @WebServlet(name = "UpdateCustomerController", urlPatterns = {"/UpdateCustomerController"})
 public class UpdateCustomerController extends HttpServlet {
 
-    private static final String SUCCESS = "updateCustomer.jsp";
+    private static final String SUCCESS = "customerProfile.jsp";
     private static final String ERROR = "error.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -30,18 +31,17 @@ public class UpdateCustomerController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
+            HttpSession session = request.getSession();
             String cusID = request.getParameter("cusID");
             String cusName = request.getParameter("cusName");
             String email = request.getParameter("email");
-            String password = request.getParameter("password");
             String phone = request.getParameter("phone");
-            String avatar = request.getParameter("avatar");
             String gender = request.getParameter("gender");
             String loc = request.getParameter("location");
-            Customer cus = new Customer(cusID, cusName, password, email, avatar, phone, loc, gender, loc, 0, 0);
+            Customer cus = new Customer(cusID, cusName, "", email, "", phone, "US", gender, loc, 0, 0);
             if (CustomerDAO.updateCustomer(cus) == true) {
                 request.setAttribute("UPDATE_SUCCESS", "Update successful");
-                request.setAttribute("BACK_INFO", cus);
+                session.setAttribute("CUSTOMER_LOGIN", cus);
                 url = SUCCESS;
             } else {
                 url = ERROR;

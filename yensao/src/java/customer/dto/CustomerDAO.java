@@ -200,7 +200,7 @@ public class CustomerDAO {
                     String password = rs.getString("password");
                     String email = rs.getString("email");
                     String role = rs.getString("role");
-                    SellerList.add(new Seller(sellerID, sellerName, password, email, "", "", role, "", "", 1, 0, 0));
+                    SellerList.add(new Seller(sellerID, sellerName, password, email, "", "", role, "", "", 1, 0));
                 }
             }
         } catch (Exception e) {
@@ -284,8 +284,8 @@ public class CustomerDAO {
                     String loc = rs.getString("loc");
                     float profit = rs.getFloat("balance");
                     int status = rs.getInt("status");
-                    int shipAllow = rs.getInt("shipAllow");
-                    Seller = (new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status, shipAllow));
+
+                    Seller = (new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status));
                 }
             }
         } catch (Exception e) {
@@ -416,7 +416,7 @@ public class CustomerDAO {
         try {
             conn = DBUtils.getConnection();
             if (conn != null) {
-                String sql = "SELECT sellerID, sellerName, password , email, avatar, phone, role, gender, loc, profit, status, shipAllow FROM seller WHERE sellerName=? AND password=?";
+                String sql = "SELECT sellerID, sellerName, password , email, avatar, phone, role, gender, loc, profit, status FROM seller WHERE sellerName=? AND password=?";
                 ptm = conn.prepareStatement(sql);
                 ptm.setString(1, sellerName);
                 ptm.setString(2, password);
@@ -431,8 +431,7 @@ public class CustomerDAO {
                     String loc = rs.getString("loc");
                     float profit = rs.getFloat("profit");
                     int status = rs.getInt("status");
-                    int shipAllow = rs.getInt("shipAllow");
-                    sel = new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status, shipAllow);
+                    sel = new Seller(sellerID, sellerName, password, email, avatar, phone, role, gender, loc, profit, status);
                 }
             }
         } catch (Exception e) {
@@ -451,26 +450,23 @@ public class CustomerDAO {
         return sel;
     }
 
-     public static boolean updateCustomer(Customer cus) {
+    public static boolean updateCustomer(Customer cus) {
         String SQL = "UPDATE customer "
-                + "SET cusName = ?, password = ? , email = ?, avatar = ?, phone = ?, gender = ?, loc = ? \n "
-                + "WHERE cusID = ?";
+                + "SET cusName = ?, email = ?, cusPhone = ?, gender = ?, loc = ? WHERE cusID = ?";
         try {
             Connection cn = DBUtils.makeConnection();
             PreparedStatement ps = cn.prepareStatement(SQL);
             int i = 1;
-            
+
             ps.setString(i++, cus.getName());
-            ps.setString(i++, cus.getPassword());
             ps.setString(i++, cus.getEmail());
-            ps.setString(i++, cus.getAvatar());
             ps.setString(i++, cus.getPhone());
             ps.setString(i++, cus.getGender());
             ps.setString(i++, cus.getLocation());
             ps.setString(i++, cus.getId());
-            
+
             boolean flag = ps.executeUpdate() > 0;
-            
+
             if (flag) {
                 return true;
             }
@@ -478,6 +474,52 @@ public class CustomerDAO {
             System.out.println("Querry Error!!");
         }
         return false;
+    }
 
+    public static boolean changePassword(String password, String cusID) throws SQLException {
+        boolean check = false;
+        Connection conn = null;
+        PreparedStatement pst = null;
+        ResultSet rs = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                String sql = "UPDATE customer SET password = ? WHERE cusID = ?";
+                pst = conn.prepareStatement(sql);
+                pst.setString(1, password);
+                pst.setString(2, cusID);
+                check = pst.executeUpdate() > 0 ? true : false; // if ptm > 0 => true//
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (pst != null) {
+                pst.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return check;
+    }
+
+    public static String getCurrentOldPass(String cusID) throws Exception {
+        String password = "";
+        PreparedStatement ptm = null;
+        ResultSet rs = null;
+        Connection cn = DBUtils.makeConnection();
+        if (cn != null) {
+            String sql = "select password from customer where cusID=?";
+            ptm = cn.prepareStatement(sql);
+            ptm.setString(1, cusID);
+            rs = ptm.executeQuery();
+            if (rs != null) {
+                while (rs.next()) {
+                    password = rs.getString("password");
+                }
+            }
+            cn.close();
+        }
+        return password;
     }
 }

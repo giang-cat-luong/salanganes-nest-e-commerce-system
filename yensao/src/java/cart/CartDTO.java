@@ -8,9 +8,10 @@ package cart;
  *
  * @author lequa
  */
-public class CartDTO {
+public class CartDTO{
 
     private String productID;
+    private String sellerID;
     private String cover;
     private String name;
     private String cateName;
@@ -21,8 +22,9 @@ public class CartDTO {
     public CartDTO() {
     }
 
-    public CartDTO(String productID, String cover, String name, String cateName, int quantity, String description, float price) {
+    public CartDTO(String productID, String sellerID, String cover, String name, String cateName, int quantity, String description, float price) {
         this.productID = productID;
+        this.sellerID = sellerID;
         this.cover = cover;
         this.name = name;
         this.cateName = cateName;
@@ -37,6 +39,14 @@ public class CartDTO {
 
     public void setProductID(String productID) {
         this.productID = productID;
+    }
+
+    public String getSellerID() {
+        return sellerID;
+    }
+
+    public void setSellerID(String sellerID) {
+        this.sellerID = sellerID;
     }
 
     public String getCover() {
@@ -87,4 +97,5 @@ public class CartDTO {
         this.price = price;
     }
 
+  
 }

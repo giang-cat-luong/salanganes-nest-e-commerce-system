@@ -12,6 +12,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import others.CategoryDTO;
 import utils.DBUtils;
 
 /**
@@ -33,6 +34,8 @@ public class ProductDAO {
     private static final String INSERT_PRODUCT_SQL = "INSERT INTO product(productID, cateID, sellerID, productName, cateName, quantity, cover, price, description)"
             + "VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?)";
     private static final String GET_CATE_NAME = "SELECT cateName FROM category WHERE cateID = ?";
+    private static final String GET_PRODUCT_BY_ID = "select * from product where cateID = ? and status = 3";
+    private static final String GET_PRODUCT_BY_ID_2 = "select * from product where productID = ?";
 
     //this function is used to get Product detail Controller based on sellerID
     public static boolean addNewProduct(String productID) throws Exception {
@@ -305,5 +308,93 @@ public class ProductDAO {
             cn.close();
         }
         return list;
+    }
+
+    public static ArrayList<Product> getProductById(String cateID) throws Exception {
+        Connection conn = null;
+        PreparedStatement pt = null;
+        ResultSet rs = null;
+        ArrayList<Product> list = new ArrayList<>();
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                pt = conn.prepareStatement(GET_PRODUCT_BY_ID);
+                pt.setString(1, cateID);
+                rs = pt.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        String productID = rs.getString("productID");
+                        String sellerID = rs.getString("sellerID");
+                        String productName = rs.getString("productName");
+                        String cateName = rs.getString("catename");
+                        int quantity = rs.getInt("quantity");
+                        String cover = rs.getString("cover");
+                        float price = rs.getFloat("price");
+                        String description = rs.getString("description");
+                        int sumSold = rs.getInt("sumSold");
+                        int status = rs.getInt("status");
+                        Product p = new Product(productID, cateID, sellerID, productName, cateName, quantity, cover, price, description, sumSold, status);
+                        list.add(p);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pt != null) {
+                pt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return list;
+    }
+
+    public Product getProductById2(String productID) throws Exception {
+        Connection conn = null;
+        PreparedStatement pt = null;
+        ResultSet rs = null;
+        Product pr = null;
+        try {
+            conn = DBUtils.getConnection();
+            if (conn != null) {
+                pt = conn.prepareStatement(GET_PRODUCT_BY_ID_2);
+                pt.setString(1, productID);
+                rs = pt.executeQuery();
+                if (rs != null) {
+                    while (rs.next()) {
+                        productID = rs.getString("productID");
+                        String cateID = rs.getString("cateID");
+                        String sellerID = rs.getString("sellerID");
+                        String productName = rs.getString("productName");
+                        String cateName = rs.getString("catename");
+                        int quantity = rs.getInt("quantity");
+                        String cover = rs.getString("cover");
+                        float price = rs.getFloat("price");
+                        String description = rs.getString("description");
+                        int sumSold = rs.getInt("sumSold");
+                        int status = rs.getInt("status");
+                        pr = new Product(productID, cateID, sellerID, productName, cateName, quantity, cover, price, description, sumSold, status);
+                    }
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (rs != null) {
+                rs.close();
+            }
+            if (pt != null) {
+                pt.close();
+            }
+            if (conn != null) {
+                conn.close();
+            }
+        }
+        return pr;
     }
 }

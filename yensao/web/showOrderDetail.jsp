@@ -3,6 +3,10 @@
     Created on : Sep 23, 2022, 11:08:19 PM
     Author     : lequa
 --%>
+<%@page import="others.OrderDetailDTO"%>
+<%@page import="others.Voucher"%>
+<%@page import="others.OrderDTO"%>
+<%@page import="java.util.ArrayList"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -38,6 +42,10 @@
     </head>
 
     <body class="nav-md">
+        <%
+            ArrayList<OrderDTO> orl = (ArrayList<OrderDTO>) request.getAttribute("ORDER_LIST");
+            ArrayList<OrderDetailDTO> ordl = (ArrayList<OrderDetailDTO>) request.getAttribute("ORDER_DETAIL_LIST");
+        %>
         <div class="container body">
             <div class="main_container">
                 <div class="col-md-3 left_col">
@@ -71,33 +79,25 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Shop <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
+                                            <li><a href="profile.jsp">Shop profile</a></li>
                                             <li><a href="tables.html">Shop rating</a></li>
-                                            <li><a href="tables.html">Shop profile</a></li>
-                                            <li><a href="tables.html">Shop reports</a></li>
-
                                         </ul>
                                     </li>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> Order <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="MainController?action=ShowOrders">All orders</a></li>
-                                            <li><a href="form_advanced.html">Cancellation</a></li>
-                                            <li><a href="form_validation.html">Return/Refund</a></li>                                           
+                                            <li><a href="MainController?action=ShowOrders&sellerID=${sessionScope.SELLER_LOGIN.id}">All orders</a></li>
+                                            <li><a href="form_advanced.html">Cancellation</a></li>                                           
+                                            <li><a href="form_advanced.html">Completed</a></li>                                           
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-suitcase"></i> Product <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="MainController?action=SellingPage?action=${sessionScope.SELLER_LOGIN.id}">My products</a></li>
-                                            <li><a href="newProduct.jsp">Add new product</a></li>
-                                            <li><a href="newProduct.jsp">Reviewing products</a></li>
-                                            <li><a href="typography.html">Product violations</a></li>                                           
+                                            <li><a href="MainController?action=SellingPage&sellerID=${sessionScope.SELLER_LOGIN.id}">My products</a></li>
+                                            <li><a href="newProduct.jsp">Add new product</a></li>                                           
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-cc-paypal"></i> Shipment <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="index.html">My shipment</a></li>
-                                            <li><a href="index2.html">Shipment setting</a></li>
-                                        </ul>
+
                                 </ul>
                             </div>
 
@@ -120,14 +120,14 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"  href="profile.jsp"> Profile</a>
-                                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a class="dropdown-item"  href="MainController?action=Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="nav-item dropdown open">
                                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <span class="badge bg-green"></span>
                                     </a>
                                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                         <li class="nav-item">
@@ -216,96 +216,104 @@
 
                         <div class="clearfix"></div>
 
-                        <div class="row">
-                            <div class="col-md-12 col-sm-12 ">
-                                <div class="x_panel">
-                                    <div class="x_title">
-                                        <h2>Order <small>All orders</small></h2>
-                                        <ul class="nav navbar-right panel_toolbox">
-                                            <li><a class="collapse-link"><i class="fa fa-chevron-up"></i></a>
-                                            </li>
-                                        </ul>
-                                        <div class="clearfix"></div>
-                                    </div>
-                                    <div class="x_content">
-                                        <div class="row">
-                                            <div class="col-sm-12">
-                                                <div class="card-box table-responsive">
-                                                    <c:if test="${requestScope.ORDER_DETAIL_LIST != null}">
-                                                        <c:if test="${not empty requestScope.ORDER_DETAIL_LIST}">
-                                                            <table id="datatable" class="table table-striped table-bordered" style="width:100%">
-                                                                <thead>
-                                                                    <tr>
-                                                                        <th>Order detail Id</th>
-                                                                        <th>Order Id</th>
-                                                                        <th>Product name</th>
-                                                                        <th>Quantity</th>
-                                                                        <th>Voucher Id</th>
-                                                                        <th>Action</th>
-                                                                    </tr>
-                                                                </thead>
-                                                                <tbody>
-                                                                <c:forEach var="detail" varStatus="counter" items="${requestScope.ORDER_DETAIL_LIST}"> 
-                                                                    <form action="MainController">
-                                                                        <tr>
-                                                                            <td>${detail.orderDetailID}</td>
-                                                                            <td>${detail.orderID}</td>
-                                                                            <td>${detail.productName}</td>
-                                                                            <td>${detail.quantity}</td>
-                                                                            <td>${detail.voucherID}</td>
-                                                                            <td>
-                                                                                <input type="hidden" name="requestID" value="${request.orderDetailID}"/>
-                                                                                <input type="hidden" name="cusID" value="${request.payment}"/>
-                                                                                <input class="inputApprove" type="submit" name="action" value="Deliveri">
-                                                                            </td>
-                                                                        </tr>
-                                                                    </form>
-                                                                </c:forEach>                     
-                                                                </tbody>
-                                                            </table>
-                                                        </c:if>
-                                                    </c:if>
-                                                </div>
+
+                        <section class="ftco-section ftco-cart">
+                            <form action="MainController" class="subscribe-form">
+                                <div class="container">
+                                    <% if (orl != null && ordl != null) {
+                                            for (int i = 0; i < orl.size(); i++) {%> 
+                                    <div class="row border" style="background-color: #fff; margin-top: 10px;border-radius: 10px inset ;border-radius: 10px;box-shadow: 5px 10px #f5f5f5;" >
+                                        <div class="col-md-3 ftco-animate" style="margin: 15px 0px 10px 22px">
+                                            <label for="Shop 123"><strong ><%= orl.get(i).getCusName()%></strong></label>
+                                            <label for="Shop 123"><strong ><%= orl.get(i).getLoc()%></strong></label>
+                                        </div>
+                                        <div class="col-md-12 ftco-animate">
+                                            <div class="cart-list">
+                                                <table class="table">
+                                                    <thead class="thead-primary">
+                                                        <tr class="text-center">
+
+                                                            <th>&nbsp;</th>
+                                                            <th>Product name</th>
+                                                            <th>Price</th>
+                                                            <th>Quantity</th>
+                                                            <th>Total</th>
+                                                            <th>&nbsp;</th>
+                                                        </tr>
+                                                    </thead>
+
+                                                    <%
+                                                        for (int j = 0; j < ordl.size(); j++) {
+                                                            if (ordl.get(j).getOrderID().equalsIgnoreCase(orl.get(i).getOrderID())) {%>
+                                                    <tbody>
+                                                        <tr class="text-center">
+
+                                                            <td class="image-prod"><div class="img"><img src="<%= ordl.get(j).getImg()%>" width="100px" height="100px" /></div></td>
+                                                            <td class="product-name">
+                                                                <h3><%= ordl.get(j).getProductName()%></h3>
+
+                                                            </td>
+                                                            <td class="price"><%= ordl.get(j).getPrice()%> </td>
+                                                            <td class="price"><%= ordl.get(j).getQuantity()%> </td>
+
+                                                            <td class="price"><%= ordl.get(j).getQuantity() * ordl.get(j).getPrice()%></td>
+                                                        </tr><!-- END TR-->
+                                                    </tbody>
+                                                    <%
+                                                            }
+                                                        }
+                                                    %>
+
+                                                </table>
                                             </div>
                                         </div>
                                     </div>
+                                    <input type="hidden" name="orderID" value="<%= orl.get(i).getOrderID()%>"/>
+                                    <input type="hidden" name="sellerID" value="${sessionScope.SELLER_LOGIN.id}"/>
+                                    <input class="inputApprove float-right" type="submit" name="action" value="Delivery" style="margin: 0px 10px 20px 0px; width: 100px">
+
+                                    <%
+                                            }
+
+                                        }
+                                    %>
+
                                 </div>
-                            </div>
-
-
-                            <!-- /page content -->                          
-                        </div>
+                            </form>
+                        </section>
+                        <!-- /page content -->                          
                     </div>
+                </div>
 
-                    <!-- jQuery -->
-                    <script src="sellerPage/vendors/jquery/dist/jquery.min.js"></script>
-                    <!-- Bootstrap -->
-                    <script src="sellerPage/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
-                    <!-- FastClick -->
-                    <script src="sellerPage/vendors/fastclick/lib/fastclick.js"></script>
-                    <!-- NProgress -->
-                    <script src="sellerPage/vendors/nprogress/nprogress.js"></script>
-                    <!-- iCheck -->
-                    <script src="sellerPage/vendors/iCheck/icheck.min.js"></script>
-                    <!-- Datatables -->
-                    <script src="sellerPage/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
-                    <script src="sellerPage/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
-                    <script src="sellerPage/vendors/jszip/dist/jszip.min.js"></script>
-                    <script src="sellerPage/vendors/pdfmake/build/pdfmake.min.js"></script>
-                    <script src="sellerPage/vendors/pdfmake/build/vfs_fonts.js"></script>
+                <!-- jQuery -->
+                <script src="sellerPage/vendors/jquery/dist/jquery.min.js"></script>
+                <!-- Bootstrap -->
+                <script src="sellerPage/vendors/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+                <!-- FastClick -->
+                <script src="sellerPage/vendors/fastclick/lib/fastclick.js"></script>
+                <!-- NProgress -->
+                <script src="sellerPage/vendors/nprogress/nprogress.js"></script>
+                <!-- iCheck -->
+                <script src="sellerPage/vendors/iCheck/icheck.min.js"></script>
+                <!-- Datatables -->
+                <script src="sellerPage/vendors/datatables.net/js/jquery.dataTables.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-bs/js/dataTables.bootstrap.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-buttons/js/dataTables.buttons.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-buttons-bs/js/buttons.bootstrap.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.flash.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.html5.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-buttons/js/buttons.print.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-fixedheader/js/dataTables.fixedHeader.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-keytable/js/dataTables.keyTable.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-responsive/js/dataTables.responsive.min.js"></script>
+                <script src="sellerPage/vendors/datatables.net-responsive-bs/js/responsive.bootstrap.js"></script>
+                <script src="sellerPage/vendors/datatables.net-scroller/js/dataTables.scroller.min.js"></script>
+                <script src="sellerPage/vendors/jszip/dist/jszip.min.js"></script>
+                <script src="sellerPage/vendors/pdfmake/build/pdfmake.min.js"></script>
+                <script src="sellerPage/vendors/pdfmake/build/vfs_fonts.js"></script>
 
-                    <!-- Custom Theme Scripts -->
-                    <script src="sellerPage/build/js/custom.min.js"></script>
+                <!-- Custom Theme Scripts -->
+                <script src="sellerPage/build/js/custom.min.js"></script>
 
-                    </body>
-                    </html> 
+                </body>
+                </html> 

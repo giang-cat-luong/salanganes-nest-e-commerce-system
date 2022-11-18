@@ -19,7 +19,8 @@ import seller.dto.SellerDAO;
  */
 @WebServlet(name = "UnBanSellerController", urlPatterns = {"/UnBanSellerController"})
 public class UnBanSellerController extends HttpServlet {
-
+public static final String SUCCESS = "MainController?action=Show";
+    public static final String ERROR = "MainController?action=Show";
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {
         response.setContentType("text/html;charset=UTF-8");

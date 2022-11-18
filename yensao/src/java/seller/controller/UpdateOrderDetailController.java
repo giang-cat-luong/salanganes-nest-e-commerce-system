@@ -5,13 +5,16 @@
  */
 package seller.controller;
 
+import cart.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.util.ArrayList;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import others.OrderDetailDTO;
 import seller.dto.SellerDAO;
 
 /**
@@ -21,7 +24,7 @@ import seller.dto.SellerDAO;
 @WebServlet(name = "UpdateOrderDetailController", urlPatterns = {"/UpdateOrderDetailController"})
 public class UpdateOrderDetailController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
+    private static final String ERROR = "MainController?action=ShowOrders";
     private static final String SUCCESS = "MainController?action=ShowOrders";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -29,10 +32,42 @@ public class UpdateOrderDetailController extends HttpServlet {
         response.setContentType("text/html;charset=UTF-8");
         String url = ERROR;
         try {
-            String orderDetailID = request.getParameter("orderDetailID");
-            boolean check = SellerDAO.updateOrderDetail(orderDetailID);
+            String orderID = request.getParameter("orderID");
+            String sellerID = request.getParameter("sellerID");
+            ArrayList<OrderDetailDTO> ordl = CartDAO.updateAndGetOrderDetail(orderID);
+            ArrayList<String> sellerIdList = new ArrayList<>();
+            boolean check = true;
+            int count = 1, allCount = 0;
+            float cumulativeUse = 0;
+            sellerIdList.add(ordl.get(0).getSellerID());
+            for (int i = 1; i < ordl.size(); i++) {
+                for (int j = 0; j < sellerIdList.size(); j++) {
+                    if (!sellerIdList.get(j).equalsIgnoreCase(ordl.get(i).getSellerID())) {
+                        count++;
+                    }
+                }
+            }
+            for (int u = 0; u < ordl.size(); u++) {
+                if (ordl.get(u).getSellerID().equalsIgnoreCase(sellerID)) {
+                    allCount++;
+                }
+            }
+            float tmpCumulativeUse = CartDAO.getCumulativeUseByOrderID(orderID);
+            if (tmpCumulativeUse != 0) {
+                cumulativeUse = (tmpCumulativeUse / count) / allCount;
+            }
+            for (int k = 0; k < ordl.size(); k++) {
+                if (ordl.get(k).getSellerID().equalsIgnoreCase(sellerID)) {
+                    check = CartDAO.tranferProfit(ordl.get(k).getOrderDetailID(),
+                            sellerID, ordl.get(k).getProductID(),
+                            ordl.get(k).getQuantity(), orderID, cumulativeUse);
+                }
+                if (check == false) {
+                    break;
+                }
+            }
             if (check == true) {
-                request.setAttribute("ORDER_DELIVERY", "Product Have Delivery!");
+                request.setAttribute("DELEVERI_SUCCESS", "You Product Have Deleveri");
                 url = SUCCESS;
             }
         } catch (Exception e) {

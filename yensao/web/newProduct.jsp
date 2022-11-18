@@ -64,33 +64,25 @@
                                 <ul class="nav side-menu">
                                     <li><a><i class="fa fa-home"></i> Shop <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="tables.html">Shop rating</a></li>
-                                            <li><a href="tables.html">Shop profile</a></li>
-                                            <li><a href="tables.html">Shop reports</a></li>
-
+                                            <li><a href="profile.jsp">Shop profile</a></li>
+                                            <li><a href="sellerPage.jsp">Shop rating</a></li>
                                         </ul>
                                     </li>
                                     </li>
                                     <li><a><i class="fa fa-edit"></i> Order <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="showOrderDetail.jsp">All orders</a></li>
-                                            <li><a href="form_advanced.html">Cancellation</a></li>
-                                            <li><a href="form_validation.html">Return/Refund</a></li>                                           
+                                            <li><a href="MainController?action=ShowOrders&sellerID=${sessionScope.SELLER_LOGIN.id}">All orders</a></li>
+                                            <li><a href="form_advanced.html">Cancellation</a></li>                                           
+                                            <li><a href="form_advanced.html">Completed</a></li>                                           
                                         </ul>
                                     </li>
                                     <li><a><i class="fa fa-suitcase"></i> Product <span class="fa fa-chevron-down"></span></a>
                                         <ul class="nav child_menu">
-                                            <li><a href="sellSelling.jsp">My products</a></li>
-                                            <li><a href="newProduct.jsp">Add new product</a></li>
-                                            <li><a href="newProduct.jsp">Reviewing products</a></li>
-                                            <li><a href="typography.html">Product violations</a></li>                                           
+                                            <li><a href="MainController?action=SellingPage&sellerID=${sessionScope.SELLER_LOGIN.id}">My products</a></li>
+                                            <li><a href="newProduct.jsp">Add new product</a></li>                                           
                                         </ul>
                                     </li>
-                                    <li><a><i class="fa fa-cc-paypal"></i> Shipment <span class="fa fa-chevron-down"></span></a>
-                                        <ul class="nav child_menu">
-                                            <li><a href="index.html">My shipment</a></li>
-                                            <li><a href="index2.html">Shipment setting</a></li>
-                                        </ul>
+
                                 </ul>
                             </div>
 
@@ -113,14 +105,14 @@
                                     </a>
                                     <div class="dropdown-menu dropdown-usermenu pull-right" aria-labelledby="navbarDropdown">
                                         <a class="dropdown-item"  href="profile.jsp"> Profile</a>
-                                        <a class="dropdown-item"  href="login.html"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
+                                        <a class="dropdown-item"  href="MainController?action=Logout"><i class="fa fa-sign-out pull-right"></i> Log Out</a>
                                     </div>
                                 </li>
 
                                 <li role="presentation" class="nav-item dropdown open">
                                     <a href="javascript:;" class="dropdown-toggle info-number" id="navbarDropdown1" data-toggle="dropdown" aria-expanded="false">
                                         <i class="fa fa-envelope-o"></i>
-                                        <span class="badge bg-green">6</span>
+                                        <span class="badge bg-green"></span>
                                     </a>
                                     <ul class="dropdown-menu list-unstyled msg_list" role="menu" aria-labelledby="navbarDropdown1">
                                         <li class="nav-item">

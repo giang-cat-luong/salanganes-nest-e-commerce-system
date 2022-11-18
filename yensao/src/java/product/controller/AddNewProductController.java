@@ -22,7 +22,7 @@ import product.dto.ProductDAO;
 public class AddNewProductController extends HttpServlet {
 
     private static final String ERROR = "error.jsp";
-    private static final String SUCCESS = "MainController?action=SellingPage";
+    private static final String SUCCESS = "MainController?action=Check";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
             throws ServletException, IOException {

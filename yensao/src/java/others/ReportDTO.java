@@ -19,19 +19,18 @@ public class ReportDTO {
     private Timestamp dateReport;
     private String description;
     private String img;
-    private int status;
 
     public ReportDTO() {
     }
 
-    public ReportDTO(int reportID, String cusID, String productID, Timestamp dateReport, String description, String img, int status) {
+    public ReportDTO(int reportID, String cusID, String productID, Timestamp dateReport, String description, String img) {
         this.reportID = reportID;
         this.cusID = cusID;
         this.productID = productID;
         this.dateReport = dateReport;
         this.description = description;
         this.img = img;
-        this.status = status;
+       
     }
 
     public int getReportID() {
@@ -82,12 +81,6 @@ public class ReportDTO {
         this.img = img;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+ 
 
 }

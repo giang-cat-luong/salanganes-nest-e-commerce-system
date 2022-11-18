@@ -1,3 +1,4 @@
+<%@page import="product.dto.ProductDAO"%>
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@page contentType="text/html" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
@@ -46,7 +47,7 @@
                             <div class="col-md-12 ftco-animate text-center">
                                 <h1 class="mb-2">100% Pure Salanganes' Nest &amp; Cordyceps</h1>
                                 <h2 class="subheading mb-4">Cheap-Tasty-Tonic</h2>
-                                <p><a href="#" class="btn btn-primary">View Details</a></p>
+                                <p><a href="MainController?action=Shopping" class="btn btn-primary">View Details</a></p>
                             </div>
 
                         </div>
@@ -61,7 +62,7 @@
                             <div class="col-sm-12 ftco-animate text-center">
                                 <h1 class="mb-2">We deliver quantity Salanganes' Nest &amp; Cordyceps</h1>
                                 <h2 class="subheading mb-4">Cheap-Tasty-Tonic</h2>
-                                <p><a href="#" class="btn btn-primary">View Details</a></p>
+                                <p><a href="MainController?action=Shopping" class="btn btn-primary">View Details</a></p>
                             </div>
 
                         </div>
@@ -171,24 +172,26 @@
                 <div class="row justify-content-center mb-3 pb-3">
                     <div class="col-md-12 heading-section text-center ftco-animate">
                         <span class="subheading">Featured Products</span>
-                        <h2 class="mb-4">Our Products</h2>
+                        <h2 class="mb-4">Top 10 Best-Selling Products</h2>
                         <p>Far far away, behind the hills and mountains of Rach Gia - Kien Giang province.</p>
                     </div>
                 </div>   		
             </div>
             <div class="container">
                 <div class="row">
+                    <c:set value="<%= ProductDAO.getHighProductList()%>" var="BestSellingProduct"/>
+                    <c:forEach items="${BestSellingProduct}" var="best">
                     <div class="col-md-6 col-lg-3 ftco-animate">
                         <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/drink.jpg" alt="Colorlib Template">
+                            <a href="#" class="img-prod"><img class="img-fluid" src="${best.cover}" alt="Colorlib Template">
                                 <span class="status">30%</span>
                                 <div class="overlay"></div>
                             </a>
                             <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Salanganes’ nests drink 300ml</a></h3>
+                                <h3><a href="#">${best.productName}</a></h3>
                                 <div class="d-flex">
                                     <div class="pricing">
-                                        <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
+                                        <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">${best.price}</span></p>
                                     </div>
                                 </div>
                                 <div class="bottom-area d-flex px-3">
@@ -207,205 +210,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/jar.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Salanganes’ nests jar 80ml</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/highlands.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Highland salanganes’ nests 50g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/root.png" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">The hair-picked alanganes’ nests 100g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/root1.jpg" alt="Colorlib Template">
-                                <span class="status">30%</span>
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Salanganes’ nests root 100g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/shred.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Shred salanganes’ nests 100g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/fresh.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Fresh alanganes’ nests 100g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-md-6 col-lg-3 ftco-animate">
-                        <div class="product">
-                            <a href="#" class="img-prod"><img class="img-fluid" src="images/swallow.jpg" alt="Colorlib Template">
-                                <div class="overlay"></div>
-                            </a>
-                            <div class="text py-3 pb-4 px-3 text-center">
-                                <h3><a href="#">Salanganes’ nests swallow 50g</a></h3>
-                                <div class="d-flex">
-                                    <div class="pricing">
-                                        <p class="price"><span>$120.00</span></p>
-                                    </div>
-                                </div>
-                                <div class="bottom-area d-flex px-3">
-                                    <div class="m-auto d-flex">
-                                        <a href="#" class="add-to-cart d-flex justify-content-center align-items-center text-center">
-                                            <span><i class="ion-ios-menu"></i></span>
-                                        </a>
-                                        <a href="#" class="buy-now d-flex justify-content-center align-items-center mx-1">
-                                            <span><i class="ion-ios-cart"></i></span>
-                                        </a>
-                                        <a href="#" class="heart d-flex justify-content-center align-items-center ">
-                                            <span><i class="ion-ios-heart"></i></span>
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    </c:forEach>
                 </div>
             </div>
         </section>
@@ -453,7 +258,7 @@
                                         </span>
                                     </div>
                                     <div class="text text-center">
-                                        <p class="mb-5 pl-4 line">Ôi ! Tôi chưa bao giờ ăn yến sao nào mà ngon, bổ, rẻ và chất lượng như yến sào ở đây. Tôi cảm thấy thật hạnh phúc khi biết đến nơi này.</p>
+                                        <p class="mb-5 pl-4 line">Oh ! I have never eaten a bird's nest that is as delicious, nutritious, cheap and quality as the bird's nest here. I feel so happy to know this place.</p>
                                         <p class="name">Taylor Swift</p>
                                         <span class="position">Singer</span>
                                     </div>
@@ -461,56 +266,56 @@
                             </div>
                             <div class="item">
                                 <div class="testimony-wrap p-4 pb-5">
-                                    <div class="user-img mb-5" style="background-image: url(images/taylor.jpg)">
+                                    <div class="user-img mb-5" style="background-image: url('https://www.billboard.com/wp-content/uploads/2021/09/ed-sheeran-2021-billboard-1548-1631118231.jpg')">
                                         <span class="quote d-flex align-items-center justify-content-center">
                                             <i class="icon-quote-left"></i>
                                         </span>
                                     </div>
                                     <div class="text text-center">
-                                        <p class="mb-5 pl-4 line">Ôi ! Tôi chưa bao giờ ăn yến sao nào mà ngon, bổ, rẻ và chất lượng như yến sào ở đây. Tôi cảm thấy thật hạnh phúc khi biết đến nơi này.</p>
-                                        <p class="name">Taylor Swift</p>
+                                        <p class="mb-5 pl-4 line">Food is an important topic of conversation to master. With a healthy food vocabulary, you’ll not only have valuable conversations.</p>
+                                        <p class="name">Ed Sheeran</p>
                                         <span class="position">Singer</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="testimony-wrap p-4 pb-5">
-                                    <div class="user-img mb-5" style="background-image: url(images/taylor.jpg)">
+                                    <div class="user-img mb-5" style="background-image: url('https://www.biography.com/.image/ar_4:3%2Cc_fill%2Ccs_srgb%2Cfl_progressive%2Cq_auto:good%2Cw_1200/MTUzMDQ5MDQ5NDIxODQ5NjA3/cardi-b-arrives-at-the-2017-mtv-video-music-awards-at-the-forum-on-august-27-2017-in-inglewood-california-photo-by-gregg-deguire_getty-images-500.jpg')">
                                         <span class="quote d-flex align-items-center justify-content-center">
                                             <i class="icon-quote-left"></i>
                                         </span>
                                     </div>
                                     <div class="text text-center">
-                                        <p class="mb-5 pl-4 line">Ôi ! Tôi chưa bao giờ ăn yến sao nào mà ngon, bổ, rẻ và chất lượng như yến sào ở đây. Tôi cảm thấy thật hạnh phúc khi biết đến nơi này.</p>
-                                        <p class="name">Taylor Swift</p>
+                                        <p class="mb-5 pl-4 line">This is the 10th time I ate this bird's nest, it's delicious, but it's also good for the health and comprehensive development of children.</p>
+                                        <p class="name">Cardi B</p>
                                         <span class="position">Singer</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="testimony-wrap p-4 pb-5">
-                                    <div class="user-img mb-5" style="background-image: url(images/taylor.jpg)">
+                                    <div class="user-img mb-5" style="background-image: url('https://vcdn1-giaitri.vnecdn.net/2022/11/04/mono9-1667563611-3069-1667563799.jpg?w=900&h=540&q=100&dpr=1&fit=crop&s=8T3pSOuvaGrrtokp1a_-UQ')">
                                         <span class="quote d-flex align-items-center justify-content-center">
                                             <i class="icon-quote-left"></i>
                                         </span>
                                     </div>
                                     <div class="text text-center">
-                                        <p class="mb-5 pl-4 line">Ôi ! Tôi chưa bao giờ ăn yến sao nào mà ngon, bổ, rẻ và chất lượng như yến sào ở đây. Tôi cảm thấy thật hạnh phúc khi biết đến nơi này.</p>
-                                        <p class="name">Taylor Swift</p>
+                                        <p class="mb-5 pl-4 line">Những món yến sào ở đây rất ngon và bổ. Ngoài ra các sản phẩm đều có nguồn gốc rõ ràng và sạch 100%.</p>
+                                        <p class="name">Mono</p>
                                         <span class="position">Singer</span>
                                     </div>
                                 </div>
                             </div>
                             <div class="item">
                                 <div class="testimony-wrap p-4 pb-5">
-                                    <div class="user-img mb-5" style="background-image: url(images/taylor.jpg)">
+                                    <div class="user-img mb-5" style="background-image: url('https://media-cdn-v2.laodong.vn/storage/newsportal/2022/4/15/1034501/BTS-V-8B.jpg')">
                                         <span class="quote d-flex align-items-center justify-content-center">
                                             <i class="icon-quote-left"></i>
                                         </span>
                                     </div>
                                     <div class="text text-center">
-                                        <p class="mb-5 pl-4 line">Ôi ! Tôi chưa bao giờ ăn yến sao nào mà ngon, bổ, rẻ và chất lượng như yến sào ở đây. Tôi cảm thấy thật hạnh phúc khi biết đến nơi này.</p>
-                                        <p class="name">Taylor Swift</p>
+                                        <p class="mb-5 pl-4 line">The bird's nest dishes here are very delicious and nutritious. In addition, the products are of clear origin and 100% clean.</p>
+                                        <p class="name">V BTS</p>
                                         <span class="position">Singer</span>
                                     </div>
                                 </div>

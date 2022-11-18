@@ -5,14 +5,17 @@
  */
 package seller.controller;
 
+import cart.CartDAO;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import others.OrderDTO;
 import others.OrderDetailDTO;
 import seller.dto.SellerDAO;
 
@@ -23,7 +26,7 @@ import seller.dto.SellerDAO;
 @WebServlet(name = "GetOrderDetailController", urlPatterns = {"/GetOrderDetailController"})
 public class GetOrderDetailController extends HttpServlet {
 
-    private static final String ERROR = "error.jsp";
+    private static final String ERROR = "showOrderDetail.jsp";
     private static final String SUCCESS = "showOrderDetail.jsp";
 
     protected void processRequest(HttpServletRequest request, HttpServletResponse response)
@@ -32,9 +35,36 @@ public class GetOrderDetailController extends HttpServlet {
         String url = ERROR;
         try {
             String sellerID = request.getParameter("sellerID");
-            ArrayList<OrderDetailDTO> list = SellerDAO.getOrderDetailList(sellerID);
-            if (list != null) {
-                request.setAttribute("ORDER_DETAIL_LIST", list);
+            ArrayList<OrderDetailDTO> ordl = SellerDAO.getOrderDetailList(sellerID);
+            ArrayList<String> tmpOrIdList = new ArrayList<>();
+            ArrayList<String> orIdList = new ArrayList<>();
+            ArrayList<OrderDTO> orl = new ArrayList<>();
+            OrderDTO or = null;
+            String tmpOrId = "";
+            if (ordl != null) {
+                for (int i = 0; i < ordl.size(); i++) {
+                    tmpOrIdList.add(ordl.get(i).getOrderID());
+                }
+                tmpOrId = tmpOrIdList.get(0);
+                orIdList.add(tmpOrId);
+
+                for (int j = 1; j < tmpOrIdList.size(); j++) {
+                    for (int k = 0; k < orIdList.size(); k++) {
+                        if (!orIdList.get(k).equalsIgnoreCase(tmpOrIdList.get(j))) {
+                            orIdList.add(tmpOrIdList.get(j));
+                        }
+                    }
+                }
+                for (int m = 0; m < orIdList.size(); m++) {
+                    or = CartDAO.getOrderByOrderID(orIdList.get(m));
+                    orl.add(or);
+                }
+                for (int t = 0; t < ordl.size(); t++) {
+                    float price = CartDAO.getPriceByProductID(ordl.get(t).getProductID());
+                    ordl.get(t).setPrice(price);
+                }
+                request.setAttribute("ORDER_LIST", orl);
+                request.setAttribute("ORDER_DETAIL_LIST", ordl);
                 url = SUCCESS;
             }
         } catch (Exception e) {
